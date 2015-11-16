@@ -1,0 +1,8 @@
+exportPattern("^[^\\.]")
+
+import(stats)
+import(graphics)
+import(grDevices)
+import(utils)
+import(datasets)
+import(methods)

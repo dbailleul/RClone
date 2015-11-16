@@ -1,0 +1,931 @@
+---
+title: "RClone quickmanual one population"
+author: "Diane Bailleul"
+date: "`r Sys.Date()`"
+output: rmarkdown::pdf_document
+pdf_document:
+keep_tex: yes
+vignette: >
+  %\VignetteIndexEntry{RClone part 1}
+  %\VignettePackage{RClone} 
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = ">", dev = 'pdf')
+```
+
+
+# "Eager Beginners" Manual for RClone package
+*RClone data format: one population*
+
+
+****
+
+
+&nbsp;
+
+
+## A. Introduction to RClone
+
+
+&nbsp;
+
+
+*RClone* is a R package version of *GenClone* program: to analyse data (SSR, SNP, ...), test for clonality and describe spatial clonal organisation.
+
+
+&nbsp;
+
+
+*RClone* allows:
+
+
+1. Description of data set  
+* discrimination of MLG (MultiLocus Genotypes);  
+* test for reliability of data (in terms of loci and sampling).  
+2. Determination of MLL (MultiLocus Lineages)  
+* psex/psex Fis with pvalue computation;  
+* genetic distance matrix computation and threshold definition.  
+3. Genotypic diversity and evenness indices calculation  
+* Simpson complement;  
+* Shannon-Wiener diversity and evenness indices;  
+* Hill's Simpson reciprocal;
+* Pareto index.  
+4. Spatial organisation of MLG/MLL  
+* spatial autocorrelation methods;  
+* clonal subrange estimation;  
+* Aggregation index and Edge Effect estimation.  
+
+
+Some of these analysis can be applied to dataset without clones. 
+
+
+&nbsp;
+
+
+## B. RClone data format: one population
+
+
+*RClone* functions works on diploid/<span style="color:red">haploid</span>, one or several populations dataset.
+
+
+If you have several populations in your dataset, go to other vignette *<span style="color:blue">RClone_qmsevpops</span>*.
+
+
+&nbsp;
+
+
+## C. General format
+
+
+<span style="color:red">If you have haploid data, you can skip to *4, For GenClone users * or *D. Description of data set*.</span>
+
+
+An *RClone* table must look like:  
+
+
+```{r}
+library(RClone)
+data(posidonia)
+```
+```{r, echo = FALSE, results = 'asis'}
+knitr::kable(posidonia[1:10,1:8], align = "c")
+```
+
+
+There is only one allele per column and, per locus, alleles are sorted by increasing order.  
+This is **mandatory** for all *RClone* functions.  
+
+
+As formatting can be source of error, we included functions to help formatting your diploid data:  
+
+
+&nbsp;
+
+
+
+**1, The simple case: you already have a one-allele per column table**  
+
+
+```{r, eval = FALSE}
+data(posidonia)
+
+sort_all(posidonia)
+```
+
+
+**2, The classic case: one locus per column**  
+
+
+```{r}
+#Let's create your example table:
+test <- matrix("232/231", ncol = 2, nrow = 2)
+colnames(test) <- paste("locus", 1:2, sep = "_")
+
+
+#Use :
+data1 <- convert_GC(as.data.frame(test), 3, "/")
+```
+```{r, eval = FALSE}
+data1
+```
+```{r, echo = FALSE}
+knitr::kable(data1, align = "c")
+```
+
+We used "3" because this is the length of the allele (with 3 numbers).  
+For allele separation, we used "/" because, of course, it was the separator.  
+
+
+**3, You already work with Adegenet**  
+
+
+It's a kind of like the case number 2, but you have to export your `genind` data into table first:  
+
+
+```{r, eval = FALSE}
+#library(adegenet)
+#with data1, a genind object from Adegenet:
+
+test <- genind2df(data1)
+data2 <- convert_GC(test, 3, "/") 
+#only if yours alleles are of length "3"
+```
+
+
+**4, For GenClone users**  
+
+
+Warning: your infile file must include all the informations available, as locus names and ploidy level (which is not mandatory for *GenClone*).
+
+
+```{r, eval = FALSE}
+data(infile)
+
+#This is nearly a GenClone file, type:
+write.table(infile, "infile.csv", col.names = FALSE, row.names = FALSE, sep = ";")
+
+#Now you have a formatted GenClone file:
+res <- transcript_GC("infile.csv", ";", 2, 7, 3)
+posidonia <- res$data_genet
+coord_posidonia <- res$data_coord
+```
+
+You might need to edit your "infile.txt" into "infile.csv" and check if there's "." and not "," for geographic coordinates, and use ";" as separator element.  
+- "2" is for the ploidy level; <span style="color:red">should have been "1" for haploid data</span>;  
+- "7" here is the number of loci;  
+- "3" is for allele length. Posidonia alleles are always of length "3".  
+
+
+&nbsp;
+
+
+## D. Description of data set
+
+ 
+### D.1 Discrimination of MLG
+
+
+**List unique alleles per locus:**
+
+
+Basic commands:
+```{r, eval = FALSE}
+data(posidonia)
+
+list_all_tab(posidonia)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}   
+list_all_tab(haplodata, haploid = TRUE)
+```
+
+
+Results:
+```{r, eval = FALSE}
+list_all_tab(posidonia)
+```
+```{r, echo = FALSE}
+data(posidonia)
+knitr::kable(list_all_tab(posidonia), align = "c")
+```
+
+
+**List MLG:**
+
+
+Basic commands:
+```{r, eval = FALSE}
+MLG_tab(posidonia)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}
+MLG_tab(haplodata)
+```
+
+
+Results:
+```{r, eval = FALSE}
+MLG_tab(posidonia)
+```
+```{r, echo = FALSE}
+knitr::kable(MLG_tab(posidonia)[1:5,], align = "c")
+```
+
+
+**Allelic frequencies:**
+
+
+Basic commands:
+```{r, eval = FALSE}
+freq_RR(posidonia)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}
+freq_RR(haplodata, haploid = TRUE)
+```
+
+
+Options:
+```{r, eval = FALSE}
+freq_RR(posidonia) #on ramets
+freq_RR(posidonia, genet = TRUE) #on genets
+freq_RR(posidonia, RR = TRUE) #Round-Robin methods
+```
+
+
+Results:
+```{r, eval = FALSE}
+freq_RR(posidonia)
+```
+```{r, echo = FALSE}
+res <- cbind(freq_RR(posidonia), freq_RR(posidonia, genet = TRUE)[,3], freq_RR(posidonia, RR = TRUE)[,3])[1:7,]
+colnames(res)[3:5] <- c("freq_ramet", "freq_genet", "freq_RR")
+knitr::kable(res, align = "c")
+```
+
+
+&nbsp;
+
+
+
+### D.2 Test for reliability of data
+
+
+**On loci**
+
+
+Basic commands:
+```{r, eval = FALSE}
+sample_loci(posidonia, nbrepeat = 1000)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}
+sample_loci(haplodata, haploid = TRUE, nbrepeat = 1000)
+```
+
+
+Options:
+```{r, eval = FALSE}
+sample_loci(posidonia, nbrepeat = 1000, He = TRUE) #with He results
+sample_loci(posidonia, nbrepeat = 1000, graph = TRUE) #graph displayed
+sample_loci(posidonia, nbrepeat = 1000, bar = TRUE) #progression bar
+													#could be time consuming
+sample_loci(posidonia, nbrepeat = 1000, export = TRUE) #graph export in .eps
+```
+
+
+Results:
+```{r, eval = FALSE}
+res <- sample_loci(posidonia, nbrepeat = 1000, He = TRUE) #time consuming
+names(res)
+```
+```{r, echo = FALSE}
+data(resvigncont)
+names(resvigncont$resvigncont$res_SU1)
+```
+```{r, eval = FALSE}
+#Results: MLG
+res$res_MLG
+```
+```{r, echo = FALSE}
+knitr::kable(resvigncont$res_SU1$res_MLG, align = "c")
+```
+```{r, eval = FALSE}
+#Results: alleles
+res$res_alleles
+```
+```{r, echo = FALSE}
+knitr::kable(resvigncont$res_SU1$res_alleles, align = "c")
+```
+```{r}
+#Results: raw data
+#res$raw_He
+#res$raw_MLG
+#res$raw_all
+```
+```{r, eval = FALSE}
+boxplot(res$raw_MLG, main = "Genotype accumulation curve",
+	xlab = "Number of loci sampled", ylab = "Number of multilocus genotypes") 
+```
+```{r, echo = FALSE}
+boxplot(resvigncont$res_SU1$raw_MLG, main = "Genotype accumulation curve", xlab = "Number of loci sampled", ylab = "Number of multilocus genotypes") 
+```
+
+**Same on units**
+
+
+Basic commands:
+```{r, eval = FALSE}
+sample_units(posidonia, nbrepeat = 1000)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}
+sample_units(haplodata, haploid = TRUE, nbrepeat = 1000)
+```
+
+
+&nbsp;
+
+
+
+## E Determination of MLL
+
+
+### E.1 psex/psex Fis with pvalue computation
+
+
+**pgen, psex and p-values**
+
+
+Basic commands:
+```{r, eval = FALSE}
+pgen(posidonia)
+data(factoR) #for psex
+psex(posidonia)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}
+pgen(haplodata, haploid = TRUE)
+data(factoR) #for psex
+psex(haplodata, haploid = TRUE)
+```
+
+Options: *(idem on psex and pgen)*
+```{r, eval = FALSE}
+#allelic frequencies computation:
+psex(posidonia) #psex on ramets
+psex(posidonia, genet = TRUE) #psex on genets
+psex(posidonia, RR = TRUE) #psex with Round-Robin method
+#psex computation
+psex(posidonia) #psex with one psex per replica
+psex(posidonia, MLGsim = TRUE) #psex MLGsim method
+#pvalues:
+psex(posidonia, nbrepeat = 100) #with p-values
+psex(posidonia, nbrepeat = 1000, bar = TRUE) #with p-values and a progression bar
+```
+
+
+Results:
+```{r, eval = FALSE}
+data(factoR)
+res <- psex(posidonia, RR = TRUE, nbrepeat = 1000)
+res[[1]] #if nbrepeat != 0, res contains a table of psex values 
+									#and a vector of sim-psex values
+```
+```{r, echo = FALSE}
+data(factoR)
+
+knitr::kable(resvigncont$res_PS2, align = "c")
+```
+```{r, eval = FALSE}
+res[[2]] #sim psex values
+```
+```{r, echo = FALSE}
+resvigncont$res_PS1[[2]]
+```
+
+
+&nbsp;
+
+
+
+**Fis, pgen Fis, psex Fis and p-values**
+
+
+<span style="color:red">Not for haploid data !</span>
+
+
+**Fis**
+
+
+Basic commands:
+```{r, eval = FALSE}
+Fis(posidonia)
+```
+
+
+Options:
+```{r, eval = FALSE}
+Fis(posidonia) #Fis on ramets
+Fis(posidonia, genet = TRUE) #Fis on genets
+Fis(posidonia, RR = TRUE) #Fis with Round-Robin methods
+#RR = TRUE contains two results : a table with allelic frequencies 
+							 #and a table with Fis results
+```
+
+
+Results:
+```{r, eval = FALSE}
+Fis(posidonia, RR = TRUE)[[2]]
+```
+```{r, echo = FALSE}
+knitr::kable(Fis(posidonia, RR = TRUE)[[2]], align = "c")
+```
+
+
+**pgen Fis, psex Fis and p-values**
+
+
+Basic commands: *(idem for pgen_Fis and psex_Fis)*
+```{r, eval = FALSE}
+pgen_Fis(posidonia)
+```
+
+
+Options:
+```{r, eval = FALSE}
+#allelic frequencies:
+psex_Fis(posidonia) #psex Fis on ramets
+psex_Fis(posidonia, genet = TRUE) #psex Fis on genets
+psex_Fis(posidonia, RR = TRUE) #psex Fis with Round-Robin method
+#psex computation
+psex_Fis(posidonia) #psex Fis, one for each replica
+psex_Fis(posidonia, MLGsim = TRUE) #psex Fis with MLGsim method
+#pvalues
+psex_Fis(posidonia, nbrepeat = 100) #with p-values
+psex_Fis(posidonia, nbrepeat = 1000, bar = TRUE) #with p-values and a progression bar
+```
+
+
+Results:
+```{r, eval = FALSE}
+data(factoR)
+res <- psex_Fis(posidonia, RR = TRUE, nbrepeat = 1000)
+res[[1]] 
+#if nbrepeat != 0, res contains a table of psex values 
+						   #and a vector of sim-psex Fis values
+```
+```{r, echo = FALSE}
+
+knitr::kable(resvigncont$res_PS4, align = "c")
+```
+```{r, eval = FALSE}
+res[[2]] #sim psex Fis values
+```
+```{r, echo = FALSE}
+resvigncont$res_PS3[[2]]
+```
+
+
+&nbsp;
+
+
+ 
+### E.2 MultiLocus Lineages
+
+
+**Genetic distance matrix computation and threshold definition**
+
+
+On a theoretical diploid population with c = 0.9999 (c, clonality rate).
+
+
+```{r, eval = FALSE}
+data(popsim)
+
+#genetic distances computation, distance on allele differences:
+respop <- genet_dist(popsim)
+ressim <- genet_dist_sim(popsim, nbrepeat = 1000) #theoretical distribution: 
+												  #sexual reproduction
+ressimWS <- genet_dist_sim(popsim, genet = TRUE, nbrepeat = 1000) #idem, without selfing
+```
+```{r, echo = FALSE}
+data(popsim)
+respop <- resvigncont$respop
+ressim <- resvigncont$ressim
+ressimWS <- resvigncont$ressimWS
+```
+```{r, fig.width = 10, fig.height = 8}
+#graph prep.:
+p1 <- hist(respop$distance_matrix, freq = FALSE, col = rgb(0,0.4,1,1), main = "popsim", 
+			xlab = "Genetic distances", breaks = seq(0, max(respop$distance_matrix)+1, 1))
+p2 <- hist(ressim$distance_matrix, freq = FALSE, col = rgb(0.7,0.9,1,0.5), main = "popSR", 
+			xlab = "Genetic distances", breaks = seq(0, max(ressim$distance_matrix)+1, 1))
+p3 <- hist(ressimWS$distance_matrix, freq = FALSE, col = rgb(0.9,0.5,1,0.3), 
+			main = "popSRWS", xlab = "Genetic distances", 
+			breaks = seq(0, max(ressimWS$distance_matrix)+1, 1))
+limx <- max(max(respop$distance_matrix), max(ressim$distance_matrix), 
+			max(ressimWS$distance_matrix))
+
+#graph superposition: 
+plot(p1, col = rgb(0,0.4,1,1), freq = FALSE, xlim = c(0,limx), main = "", 
+		xlab = "Genetic distances")
+plot(p2, col = rgb(0.7,0.9,1,0.5), freq = FALSE, add = TRUE)
+plot(p3, col = rgb(0.9,0.5,1,0.3), freq = FALSE, add = TRUE)
+
+#adding a legend:
+leg.txt <- c("original data","simulated data", "without selfing")
+col <- c(rgb(0,0.4,1,1), rgb(0.7,0.9,1,0.5), rgb(0.9,0.5,1,0.3))
+legend("top", fill = col, leg.txt, plot = TRUE, bty = "o", box.lwd = 1.5, 
+bg = "white")
+```
+```{r}
+#determining alpha2
+table(respop$distance_matrix)
+#alpha2 = 4
+```
+```{r}
+#creating MLL list:
+MLLlist <- MLL_generator(popsim, alpha2 = 4)
+#or
+res <- genet_dist(popsim, alpha2 = 4)
+MLLlist <- MLL_generator2(res$potential_clones, MLG_list(popsim))
+```
+
+
+<span style="color:red">For haploid data, theoretical example:</span>
+```{r, eval = FALSE}
+respop <- genet_dist(haplodata, haploid = TRUE)
+ressim <- genet_dist_sim(haplodata, haploid = TRUE, nbrepeat = 1000)
+MLLlist <- MLL_generator(haplodata, haploid = TRUE, alpha2 = 4)
+#or
+res <- genet_dist(haplodata, haploid = TRUE, alpha2 = 4)
+MLLlist <- MLL_generator2(res$potential_clones, haploid = TRUE, MLG_list(haplodata))
+```
+
+
+&nbsp;
+
+
+## F. Genotypic diversity and evenness indices calculation  
+
+
+### F.1 Classic genotypic indices
+
+
+Basic commands:
+```{r, eval = FALSE}
+clonal_index(posidonia)
+```
+<span style="color:purple">or, with MLL:</span>
+```{r, eval = FALSE}
+clonal_index(popsim, listMLL = MLLlist)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}
+clonal_index(haplodata)
+```
+
+
+Results:
+```{r, eval = FALSE}
+clonal_index(posidonia)
+```
+```{r, echo = FALSE, results = 'asis'}
+knitr::kable(resvigncont$rescl, align = "c")
+data(coord_posidonia)
+```
+
+
+&nbsp;
+
+
+### F.2 Pareto index
+
+
+Basic commands:
+```{r, eval = FALSE}
+Pareto_index(posidonia)
+```
+<span style="color:purple">or, with MLL:</span>
+```{r, eval = FALSE}
+Pareto_index(popsim, listMLL = MLLlist)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}
+Pareto_index(haplodata)
+```
+
+
+Options:
+```{r, eval = FALSE}
+Pareto_index(posidonia, graph = TRUE) #classic graphic
+Pareto_index(posidonia, legends = 2, export = TRUE) #export option
+Pareto_index(posidonia, full = TRUE) #all results
+```
+
+
+Results:
+```{r}
+res <- Pareto_index(posidonia, full = TRUE, graph = TRUE, legends = 2)
+names(res)
+res$Pareto
+res$c_Pareto
+#res$regression_results
+#res$coords_Pareto #points coordinates
+```
+
+
+&nbsp;
+
+
+
+## G. Spatial description of clonality  
+
+
+### G.1 Spatial autocorrelation
+
+
+Basic commands:
+```{r, eval = FALSE}
+autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE)
+```
+<span style="color:purple">or, with MLL:</span>
+```{r, eval = FALSE}
+autocorrelation(popsim, coords = coord_sim, Loiselle = TRUE, listMLL = MLLlist)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}
+autocorrelation(haplodata, haploid = TRUE, coords = coord_haplo, Loiselle = TRUE)
+```
+
+
+Lot's of options:
+```{r, eval = FALSE}
+data(posidonia)
+data(coord_posidonia)
+
+#kinship distances:
+autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE)
+autocorrelation(posidonia, coords = coord_posidonia, Ritland = TRUE)
+
+#ramets/genets methods:
+autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE) #ramets
+autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE, 
+					genet = TRUE, central_coords = TRUE) 
+											#genets, central coordinates of each MLG
+autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE, 
+				genet = TRUE, random_unit = TRUE) #genets, one random unit per MLG
+autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE, 
+				genet = TRUE, weighted = TRUE) #genets, with weighted matrix on kinships
+
+#distance classes construction:
+autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE) 
+													#10 equidistant classes
+distvec <- c(0,10,15,20,30,50,70,76.0411074) 
+						#with 0, min distance and 76.0411074, max distance
+autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE, 
+					vecdist = distvec) #custom distance vector
+autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE, 
+					class1 = TRUE, d = 7) #7 equidistant classes
+autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE, 
+					class2 = TRUE, d = 7) 
+					#7 distance classes with the same number of units in each
+
+#graph options:
+autocorrelation(posidonia, coords = coord_posidonia, Ritland = TRUE, graph = TRUE) 
+																	#displays graph
+autocorrelation(posidonia, coords = coord_posidonia, Ritland = TRUE, export = TRUE) 
+																	#export graph
+
+#pvalues computation
+autocorrelation(posidonia, coords = coord_posidonia, Ritland = TRUE, nbrepeat = 1000)
+```
+
+
+Results:
+```{r, eval = FALSE}
+res <- autocorrelation(posidonia, coords = coord_posidonia, Ritland = TRUE, 
+						nbrepeat = 1000, graph = TRUE)
+```
+```{r, echo = FALSE}
+plot(resvigncont$resauto$Main_results[,3], resvigncont$resauto$Main_results[,6], main = "Spatial aucorrelation analysis",
+ylim = c(-0.2,0.2), type = "l", xlab = "Spatial distance", ylab = "Coancestry (Fij)")
+points(resvigncont$resauto$Main_results[,3], resvigncont$resauto$Main_results[,6], pch = 20)
+abline(h = 0, lty = 3)
+```
+```{r, eval = FALSE}
+names(res)
+```
+```{r, echo = FALSE}
+names(resvigncont$resauto)
+```
+```{r, eval = FALSE}
+res$Main_results #enables graph reproduction
+```
+```{r, echo = FALSE}
+knitr::kable(resvigncont$resauto$Main_results, align = "c")
+```
+```{r, eval = FALSE}
+apply(res$Main_results, 2, mean)[6] #mean Fij
+```
+```{r, echo = FALSE}
+apply(resvigncont$resauto$Main_results, 2, mean)[6] #mean Fij
+```
+```{r, eval = FALSE}
+res$Slope_and_Sp_index #gives b and Sp indices
+```
+```{r, echo = FALSE}
+knitr::kable(resvigncont$resauto$Slope_and_Sp_index, align = "c")
+```
+```{r}
+#raw data:
+#res$Slope_resample
+#res$Kinship_resample
+#res$Matrix_kinship_results
+#res$Class_kinship_results 
+#res$Class_distance_results
+```
+
+
+&nbsp;
+
+
+
+### G.2 Clonal subrange
+
+
+Basic commands:
+```{r, eval = FALSE}
+clonal_sub(posidonia, coords = coord_posidonia)
+```
+<span style="color:purple">or, with MLL:</span>
+```{r, eval = FALSE}
+clonal_sub(popsim, coords = coord_sim, listMLL = MLLlist)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}
+clonal_sub(haplodata, haploid = TRUE, coords = coord_haplo)
+```
+
+
+Options: same distance classes definition as *autocorrelation*:
+```{r, eval = FALSE}
+clonal_sub(posidonia, coords = coord_posidonia) #basic, with 10 equidistant classes
+distvec <- c(0,10,15,20,30,50,70,76.0411074) 
+						#with 0, min distance and 76.0411074, max distance
+clonal_sub(posidonia, coords = coord_posidonia, vecdist = distvec) 
+												#custom distance classes
+clonal_sub(posidonia, coords = coord_posidonia, class1 = TRUE, d = 7) 
+												#7 equidistant classes
+clonal_sub(posidonia, coords = coord_posidonia, class1 = TRUE, d = 7) 
+				#7 distance classes with the same number of units in each
+```
+
+
+Results:
+```{r, eval = FALSE}
+res <- clonal_sub(posidonia, coords = coord_posidonia)
+res[[1]] #Global clonal subrange
+```
+```{r, echo = FALSE}
+resvigncont$rescs[[1]]
+```
+```{r, eval = FALSE}
+res$clonal_sub_tab  #details per class
+```
+```{r, echo = FALSE}
+knitr::kable(resvigncont$rescs$clonal_sub_tab, align ="c")
+```
+
+
+&nbsp;
+
+
+
+### G.3 Aggregation index
+
+Basic commands:
+```{r, eval = FALSE}
+agg_index(posidonia, coords = coord_posidonia)
+```
+<span style="color:purple">or, with MLL:</span>
+```{r, eval = FALSE}
+agg_index(popsim, coords = coord_sim, listMLL = MLLlist)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}
+agg_index(haplodata, coords = coord_haplo)
+```
+
+
+Options:
+```{r, eval = FALSE}
+agg_index(posidonia, coords = coord_posidonia, nbrepeat = 100) #pvalue computation
+agg_index(posidonia, coords = coord_posidonia, nbrepeat = 1000, bar = TRUE) 
+															#could be time consuming
+```
+
+
+Results:
+```{r, eval = FALSE}
+res <- agg_index(posidonia, coords = coord_posidonia, nbrepeat = 1000) 
+```
+```{r, eval = FALSE}
+res$results #Aggregation index
+```
+```{r, echo = FALSE}
+knitr::kable(resvigncont$resagg$results, align = "c")
+```
+```{r}
+#res$simulation #vector of sim aggregation index
+```
+
+&nbsp;
+
+
+
+### G.4 Edge Effect
+
+
+Basic commands:
+```{r, eval = FALSE}
+#for posidonia, center of quadra is at 40,10
+edge_effect(posidonia, coords = coord_posidonia, center = c(40,10))
+```
+<span style="color:purple">or, with MLL:</span>
+```{r, eval = FALSE}
+edge_effect(popsim, coords = coord_sim, center = c(40,10), listMLL = MLLlist)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}
+edge_effect(haplodata, coords = coord_haplo, center = c(40,10))
+```
+
+
+Options:
+```{r, eval = FALSE}
+edge_effect(posidonia, coords = coord_posidonia, center = c(40,10), nbrepeat = 100) 
+																	#pvalue computation
+edge_effect(posidonia, coords = coord_posidonia, center = c(40,10), nbrepeat = 1000, 
+													bar = TRUE) #could be time consuming
+```
+
+
+Results:
+```{r, eval = FALSE}
+res <- edge_effect(posidonia, coords = coord_posidonia, center = c(40,10), nbrepeat = 1000)
+```
+```{r, eval = FALSE}
+res$results #Aggregation index
+```
+```{r, echo = FALSE}
+knitr::kable(resvigncont$resee$results, align = "c")
+```
+```{r}
+#res$simulation #vector of sim aggregation index
+```
+
+
+&nbsp;
+
+    
+## H. BONUS
+    
+
+*Summary function:*
+
+
+Basic commands:
+```{r, eval = FALSE}
+genclone(posidonia, coords = coord_posidonia)
+```
+<span style="color:purple">or, with MLL:</span>
+```{r, eval = FALSE}
+genclone(popsim, coords = coord_sim, listMLL = MLLlist)
+```
+<span style="color:red">or, for haploid data:</span>
+```{r, eval = FALSE}
+genclone(haplodata, haploid = TRUE, coords = coord_haplo)
+```
+
+
+Options:
+```{r, eval = FALSE}
+genclone(posidonia, coords = coord_posidonia, nbrepeat = 100) #pvalues
+genclone(posidonia, coords = coord_posidonia, nbrepeat = 1000, bar = TRUE) 
+													#could be time consuming
+```
+
+
+Results:
+```{r, eval = FALSE}
+genclone(posidonia, coords = coord_posidonia)
+```
+```{r, echo = FALSE, results = 'asis'}
+knitr::kable(resvigncont$resgen[,1:10], longtable = TRUE, align = "c")
+knitr::kable(resvigncont$resgen[,11:17], longtable = TRUE, align = "c")
+knitr::kable(resvigncont$resgen[,18:24], longtable = TRUE, align = "c")
+```
