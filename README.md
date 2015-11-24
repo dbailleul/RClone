@@ -5,20 +5,20 @@
 *RClone* allows:
 
 1. Description of data set  
-* discrimination of MLG (MultiLocus Genotypes);  
-* test for reliability of data (in terms of loci and sampling).  
+    * discrimination of MLG (MultiLocus Genotypes);  
+    * test for reliability of data (in terms of loci and sampling).  
 2. Determination of MLL (MultiLocus Lineages)  
-* psex/psex Fis with pvalue computation;  
-* genetic distance matrix computation and threshold definition.  
+    * psex/psex Fis with pvalue computation;  
+    * genetic distance matrix computation and threshold definition.  
 3. Genotypic diversity and evenness indices calculation  
-* Simpson complement;  
-* Shannon-Wiener diversity and evenness indices;  
-* Hill's Simpson reciprocal;
-* Pareto index.  
+    * Simpson complement;  
+    * Shannon-Wiener diversity and evenness indices;  
+    * Hill's Simpson reciprocal;
+    * Pareto index.  
 4. Spatial organisation of MLG/MLL  
-* spatial autocorrelation methods;  
-* clonal subrange estimation;  
-* Aggregation index and Edge Effect estimation.  
+    * spatial autocorrelation methods;  
+    * clonal subrange estimation;  
+    * Aggregation index and Edge Effect estimation.  
 
 Some of these analysis can be applied to dataset without clones. 
 
