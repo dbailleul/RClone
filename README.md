@@ -1,9 +1,3 @@
----
-output:
-  md_document:
-    variant: markdown_github
----
-
 # RClone v1.0.1
 
 *RClone* is a R package version of *GenClone* program: to analyse data (SSR, SNP, ...), test for clonality and describe spatial clonal organisation.
