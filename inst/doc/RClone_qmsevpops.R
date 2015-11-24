@@ -360,7 +360,7 @@ MLLlist <- MLL_generator2(list(res[[1]]$potential_clones,
 #  clonal_index(zostera, vecpop = popvec)
 
 ## ---- echo = FALSE, results = 'asis'-------------------------------------
-knitr::kable(clonal_index(zostera, vecpop = popvec), align = "c")
+knitr::kable(resvigncont2$res2_ci, align = "c")
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  Pareto_index(zostera, vecpop = popvec)
@@ -593,24 +593,24 @@ knitr::kable(resvigncont2$res2_ee$SaintMalo$results, align = "c")
 #res$SaintMalo$simulation #vector of sim aggregation index
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  genclone(zostera, coords = coord_zostera, vecpop = popvec)
+#  GenClone(zostera, coords = coord_zostera, vecpop = popvec)
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  genclone(popsim, coords = coord_sim, listMLL = MLLlist)
+#  GenClone(popsim, coords = coord_sim, listMLL = MLLlist)
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  genclone(haplodata, haploid = TRUE, coords = coord_haplo)
+#  GenClone(haplodata, haploid = TRUE, coords = coord_haplo)
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  genclone(zostera, coords = coord_zostera, vecpop = popvec, nbrepeat = 100) #pvalues
-#  genclone(zostera, coords = coord_zostera, vecpop = popvec, nbrepeat = 1000, bar = TRUE)
+#  GenClone(zostera, coords = coord_zostera, vecpop = popvec, nbrepeat = 100) #pvalues
+#  GenClone(zostera, coords = coord_zostera, vecpop = popvec, nbrepeat = 1000, bar = TRUE)
 #  																#could be time consuming
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  genclone(zostera, coords = coord_zostera, vecpop = popvec)
+#  GenClone(zostera, coords = coord_zostera, vecpop = popvec)
 
 ## ---- echo = FALSE, results = 'asis'-------------------------------------
-knitr::kable(resvigncont2$res2_gen[,1:10], longtable = TRUE, align = "c")
-knitr::kable(resvigncont2$res2_gen[,11:17], longtable = TRUE, align = "c")
-knitr::kable(resvigncont2$res2_gen[,18:24], longtable = TRUE, align = "c")
+knitr::kable(resvigncont2$res2_gen[,1:9], longtable = TRUE, align = "c")
+knitr::kable(resvigncont2$res2_gen[,10:16], longtable = TRUE, align = "c")
+knitr::kable(resvigncont2$res2_gen[,17:24], longtable = TRUE, align = "c")
 

@@ -519,12 +519,12 @@ knitr::kable(resvigncont$resee$results, align = "c")
 #  genclone(haplodata, haploid = TRUE, coords = coord_haplo)
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  genclone(posidonia, coords = coord_posidonia, nbrepeat = 100) #pvalues
-#  genclone(posidonia, coords = coord_posidonia, nbrepeat = 1000, bar = TRUE)
+#  GenClone(posidonia, coords = coord_posidonia, nbrepeat = 100) #pvalues
+#  GenClone(posidonia, coords = coord_posidonia, nbrepeat = 1000, bar = TRUE)
 #  													#could be time consuming
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  genclone(posidonia, coords = coord_posidonia)
+#  GenClone(posidonia, coords = coord_posidonia)
 
 ## ---- echo = FALSE, results = 'asis'-------------------------------------
 knitr::kable(resvigncont$resgen[,1:10], longtable = TRUE, align = "c")

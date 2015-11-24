@@ -652,7 +652,7 @@ Results:
 clonal_index(zostera, vecpop = popvec)
 ```
 ```{r, echo = FALSE, results = 'asis'}
-knitr::kable(clonal_index(zostera, vecpop = popvec), align = "c")
+knitr::kable(resvigncont2$res2_ci, align = "c")
 ```
 
 
@@ -997,37 +997,37 @@ knitr::kable(resvigncont2$res2_ee$SaintMalo$results, align = "c")
 
 Basic commands:
 ```{r, eval = FALSE}
-genclone(zostera, coords = coord_zostera, vecpop = popvec)
+GenClone(zostera, coords = coord_zostera, vecpop = popvec)
 ```
 <span style="color:purple">or, with MLL:</span>
 ```{r, eval = FALSE}
-genclone(popsim, coords = coord_sim, listMLL = MLLlist)
+GenClone(popsim, coords = coord_sim, listMLL = MLLlist)
 ```
 <span style="color:red">or, for haploid data:</span>
 ```{r, eval = FALSE}
-genclone(haplodata, haploid = TRUE, coords = coord_haplo)
+GenClone(haplodata, haploid = TRUE, coords = coord_haplo)
 ```
 
 
 Options:
 ```{r, eval = FALSE}
-genclone(zostera, coords = coord_zostera, vecpop = popvec, nbrepeat = 100) #pvalues
-genclone(zostera, coords = coord_zostera, vecpop = popvec, nbrepeat = 1000, bar = TRUE) 
+GenClone(zostera, coords = coord_zostera, vecpop = popvec, nbrepeat = 100) #pvalues
+GenClone(zostera, coords = coord_zostera, vecpop = popvec, nbrepeat = 1000, bar = TRUE) 
 																#could be time consuming
 ```
 
 
 Results:
 ```{r, eval = FALSE}
-genclone(zostera, coords = coord_zostera, vecpop = popvec)
+GenClone(zostera, coords = coord_zostera, vecpop = popvec)
 ```
 ```{r, echo = FALSE, results = 'asis'}
-knitr::kable(resvigncont2$res2_gen[,1:10], longtable = TRUE, align = "c")
-knitr::kable(resvigncont2$res2_gen[,11:17], longtable = TRUE, align = "c")
-knitr::kable(resvigncont2$res2_gen[,18:24], longtable = TRUE, align = "c")
+knitr::kable(resvigncont2$res2_gen[,1:9], longtable = TRUE, align = "c")
+knitr::kable(resvigncont2$res2_gen[,10:16], longtable = TRUE, align = "c")
+knitr::kable(resvigncont2$res2_gen[,17:24], longtable = TRUE, align = "c")
 ```
 
-Arcouest and SaintMalo have *NaN* values for Fis and Fis_WR because some loci are homozygous.
+When a locus is homozygous, it is ignored for Fis and Fis_WR values computation.
 
 
 

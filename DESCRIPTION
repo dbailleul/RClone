@@ -1,6 +1,6 @@
 Package: RClone
-Version: 1.0.0
-Date: 2015-10-20
+Version: 1.0.1
+Date: 2015-11-24
 Title: Partially Clonal Populations Analysis
 Authors@R: c(
     person("Sophie", "Arnaud-Haond", email = "sohie.arnaud@ifremer.fr", role = "aut"),

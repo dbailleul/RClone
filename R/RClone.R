@@ -1888,42 +1888,50 @@ clonal_index_core <- function(data1, listMLL = NULL){
 
 	N <- nrow(data1)
 	if (length(listMLL) != 0){
-			list_genet <- listMLL
-		if (length(unlist(list_genet)) != nrow(data1)){stop("MLL list does not compute")}
-			G <- length(listMLL)
-		} else {
-			G <- nrow(unique(data1))
-        		list_genet <- MLG_list(data1)
-		}
-
-        if (G != N){
-                R <- (G-1)/(N-1) ##Clonal diversity Dorken & Eckert : R
-
-        count_MLG <- unlist(lapply(list_genet, length))
-        freq_MLG <- count_MLG/N
-
-G0 <- 1/sum(freq_MLG*freq_MLG) ##Estimate of genotypic diversity/Stoddart
-Ge <- 1/(sum(freq_MLG[which(count_MLG > 1)]*freq_MLG[which(count_MLG > 1)])+(sum(freq_MLG[which(count_MLG < 1)])/N)) ##Estimate of expected genotypic diversity under H-W
-
-                Hpp <- -sum((count_MLG/N)*log(count_MLG/N)) ##Shannon-Wiener index estimator : Hpp
-                Jp <- Hpp/log(G) ##Pielou evenness: Jp
-        Ls <- sum((count_MLG*(count_MLG-1))/(N*(N-1))) ##Simpson unbiased : Ls
-                Dp <- 1-Ls ##Simpson complement unbiased : Dp
-        Dmin <- (((2*N-G)*(G-1))/(N*N))*(N/(N-1))
-        Dmax <- ((G-1)/G)*(N/(N-1))
-                V <- (Dp-Dmin)/(Dmax-Dmin) ##Simpson complement index : V
-                Hill <- 1/Ls ##Reciprocal of Simpson index unbiased : 1/Ls HILL
-
-        tab <- as.data.frame(matrix(c(G, R, Hpp, Jp, Dp, V, Hill), nrow = 1))
-
-	if(length(listMLL) != 0){
-		rownames(tab) <- "MLL"
+		list_genet <- listMLL
+			if (length(unlist(list_genet)) != nrow(data1)){stop("MLL list does not compute")}
+		G <- length(listMLL)
 	} else {
-		rownames(tab) <- "MLG"
+		G <- nrow(unique(data1))
+        	list_genet <- MLG_list(data1)
 	}
-	names(tab) <- c("G", "R", "H''", "J'", "D", "V", "Hill")
-	tab       
-}
+
+	if (G != N){
+		R <- (G-1)/(N-1) ##Clonal diversity Dorken & Eckert : R
+
+		count_MLG <- unlist(lapply(list_genet, length))
+		freq_MLG <- count_MLG/N
+
+			G0 <- 1/sum(freq_MLG*freq_MLG) ##Estimate of genotypic diversity/Stoddart
+			Ge <- 1/(sum(freq_MLG[which(count_MLG > 1)]*freq_MLG[which(count_MLG > 1)])+(sum(freq_MLG[which(count_MLG < 1)])/N)) ##Estimate of expected genotypic diversity under H-W
+
+		Hpp <- -sum((count_MLG/N)*log(count_MLG/N)) ##Shannon-Wiener index estimator : Hpp
+		Jp <- Hpp/log(G) ##Pielou evenness: Jp
+			Ls <- sum((count_MLG*(count_MLG-1))/(N*(N-1))) ##Simpson unbiased : Ls
+		Dp <- 1-Ls ##Simpson complement unbiased : Dp
+        		Dmin <- (((2*N-G)*(G-1))/(N*N))*(N/(N-1))
+        		Dmax <- ((G-1)/G)*(N/(N-1))
+		V <- (Dp-Dmin)/(Dmax-Dmin) ##Simpson complement index : V
+		Hill <- 1/Ls ##Reciprocal of Simpson index unbiased : 1/Ls HILL
+
+		tab <- as.data.frame(matrix(c(N, G, R, Hpp, Jp, Dp, V, Hill), nrow = 1))
+
+			if(length(listMLL) != 0){
+				rownames(tab) <- "MLL"
+			} else {
+				rownames(tab) <- "MLG"
+			}
+
+		names(tab) <- c("N", "G", "R", "H''", "J'", "D", "V", "Hill")
+		tab       
+	} else {
+		tab <- as.data.frame(matrix(NA, ncol = 8, nrow = 1))
+		names(tab) <- c("N", "G", "R", "H''", "J'", "D", "V", "Hill")
+		tab[,1] <- N
+		tab[,2] <- G
+		tab[,3] <- 1
+		tab
+	}
 }
 
 
@@ -1936,16 +1944,16 @@ clonal_index <- function(data1, vecpop = NULL, listMLL = NULL){
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
 
 		datatot <- split(data1, vecpop)
-			res <- as.data.frame(matrix(NA, ncol = 7, nrow = length(unique(vecpop))))
+			res <- as.data.frame(matrix(NA, ncol = 8, nrow = length(unique(vecpop))))
 				for (p in 1:length(unique(vecpop))){
 					rownames(datatot[[p]]) <- 1:nrow(datatot[[p]])
 					resu <- clonal_index_core(datatot[[p]], listMLL[[p]])
 						if(length(resu) != 0){
 							res[p,] <- resu
-						} else {res[p,] <- rep(0, 7)}
+						} else {res[p,] <- rep(NA, 8)}
 					rownames(res)[p] <- unique(vecpop_o)[p]
 				}
-			names(res) <- c("G", "R", "H''", "J'", "D", "V", "Hill")
+			names(res) <- c("N","G", "R", "H''", "J'", "D", "V", "Hill")
 		} else {
 			res <- clonal_index_core(data1, listMLL)
 		}
@@ -2724,11 +2732,16 @@ if (length(nbrepeat) != 0){
 	tabres <- cbind(tabres, pval_kin)
 
 	tabres3 <- as.data.frame(cbind(b, b_log, Sp, Sp_log))
+	down005 <- ceiling(nbrepeat*0.025)
+	up005 <- nbrepeat*0.975
+	down01 <- ceiling(nbrepeat*0.05)
+	up01 <- nbrepeat*0.95
+
 	tabres3 <- rbind(tabres3, apply(tabsim, 2, mean), apply(tabsim, 2, sd),
-	c(sort(tabsim[,1])[nbrepeat*0.025], sort(tabsim[,2])[nbrepeat*0.025], sort(tabsim[,3])[nbrepeat*0.025], sort(tabsim[,4])[nbrepeat*0.025]),
-	c(sort(tabsim[,1])[nbrepeat*0.975], sort(tabsim[,2])[nbrepeat*0.975], sort(tabsim[,3])[nbrepeat*0.975], sort(tabsim[,4])[nbrepeat*0.975]),
-	c(sort(tabsim[,1])[nbrepeat*0.05], sort(tabsim[,2])[nbrepeat*0.05], sort(tabsim[,3])[nbrepeat*0.05], sort(tabsim[,4])[nbrepeat*0.05]),
-	c(sort(tabsim[,1])[nbrepeat*0.95], sort(tabsim[,2])[nbrepeat*0.95], sort(tabsim[,3])[nbrepeat*0.95], sort(tabsim[,4])[nbrepeat*0.95]),
+	c(sort(tabsim[,1])[down005], sort(tabsim[,2])[down005], sort(tabsim[,3])[down005], sort(tabsim[,4])[down005]),
+	c(sort(tabsim[,1])[up005], sort(tabsim[,2])[up005], sort(tabsim[,3])[up005], sort(tabsim[,4])[up005]),
+	c(sort(tabsim[,1])[down01], sort(tabsim[,2])[down01], sort(tabsim[,3])[down01], sort(tabsim[,4])[down01]),
+	c(sort(tabsim[,1])[up01], sort(tabsim[,2])[up01], sort(tabsim[,3])[up01], sort(tabsim[,4])[up01]),
 	c(mean(tabsim[,1] <= b), mean(tabsim[,2] <= b_log), mean(tabsim[,3] <= Sp), mean(tabsim[,4] <= Sp_log)),
 	c(mean(tabsim[,1] >= b), mean(tabsim[,2] >= b_log), mean(tabsim[,3] >= Sp), mean(tabsim[,4] >= Sp_log)),
 	c(if (2*min(mean(tabsim[,1] <= b), mean(tabsim[,1] >= b)) > 1) {1} else {2*min(mean(tabsim[,1] <= b), mean(tabsim[,1] >= b))},
@@ -3306,25 +3319,34 @@ tab_sim
 }
 
 
-genclone_core <- function(data1, data2, haploid = FALSE, coords = NULL, listMLL = NULL, nbrepeat = NULL, bar = FALSE){
+GenClone_core <- function(data1, data2, haploid = FALSE, coords = NULL, listMLL = NULL, nbrepeat = NULL, bar = FALSE){
 
 	N <- nrow(data1)
-	if (length(listMLL) != 0){
+
+	if (length(coords) == 0){
+		nocoords <- TRUE
+	} else if (sum(coords[,1] == coords[1,1]) == nrow(coords) & sum(coords[,2] == coords[1,2]) == nrow(coords)){
+		nocoords <- TRUE
+	} else {
+		nocoords <- FALSE
+	}	
+
+		if (length(listMLL) != 0){
 			list_genet <- listMLL
-if (length(unlist(list_genet)) != nrow(data1)){stop("MLL list does not compute")}
+				if (length(unlist(list_genet)) != nrow(data1)){stop("MLL list does not compute")}
 			G <- length(listMLL)
-			if(G == nrow(unique(data1))){
-				L <- "MLG"
-			} else {
-				L <- "MLL"
-			}
+				if (G == nrow(unique(data1))){
+					L <- "MLG"
+				} else {
+					L <- "MLL"
+				}
 		} else {
 			G <- nrow(unique(data1))
         		list_genet <- MLG_list(data1)
 			L <- "MLG"
 		}
 
-	if(haploid){
+	if (haploid){
 		nb_all <- mean(sapply(apply(data1, 2, unique), length))
 		SE <- sd(sapply(apply(data1, 2, unique), length))/sqrt(length(sapply(apply(data1, 2, unique), length)))
 		res_Fis <- NA
@@ -3334,16 +3356,26 @@ if (length(unlist(list_genet)) != nrow(data1)){stop("MLL list does not compute")
 	} else {
 		index_l <- 1:c(ncol(data1)/2)*2-1
 		recup <- NULL
-		for(i in index_l){ 
-			recup <- c(recup, length(unique(c(data1[,i], data1[,i+1]))))
-		}
+			for(i in index_l){ 
+				recup <- c(recup, length(unique(c(data1[,i], data1[,i+1]))))
+			}
 		nb_all <- mean(recup)
 		SE <- sd(recup)/sqrt(length(recup))
 
-	res_Fis <- mean(Fis_core(data1, data2, genet = FALSE, RR = FALSE)[,4])
-	res_Fis_WR <- mean(Fis_core(data1, data2, genet = TRUE, RR = FALSE)[,4])
+	res_Fis_0 <- Fis_core(data1, data2, genet = FALSE, RR = FALSE)[,4]
+		if (sum(is.na(res_Fis_0)) != 0){
+			res_Fis <- mean(res_Fis_0[-which(is.na(res_Fis_0))])
+		} else {
+			res_Fis <- mean(res_Fis_0)
+		}
+	res_Fis_WR_0 <- Fis_core(data1, data2, genet = TRUE, RR = FALSE)[,4]
+		if (sum(is.na(res_Fis_WR_0)) != 0){
+			res_Fis_WR <- mean(res_Fis_WR_0[-which(is.na(res_Fis_WR_0))])
+		} else {
+			res_Fis_WR <- mean(res_Fis_WR_0)
+		}
 
-		if(length(nbrepeat) != 0){
+		if (length(nbrepeat) != 0){
 			Fis_sim <- NULL
 			FisWR_sim <- NULL
 			
@@ -3352,13 +3384,25 @@ if (length(unlist(list_genet)) != nrow(data1)){stop("MLL list does not compute")
 				pb <- txtProgressBar(min = 0, max = total, style = 3)
 			}
 			
-				for(s in 1:nbrepeat){
+				for (s in 1:nbrepeat){
 					tab_sim <- popsimgen(data1, haploid = FALSE)
-					Fis_sim <- c(Fis_sim, mean(Fis(tab_sim, RR = FALSE, genet = FALSE)[,4]))
-					FisWR_sim <- c(FisWR_sim, mean(Fis(tab_sim, RR = FALSE, genet = TRUE)[,4]))
-					if (bar){
-						setTxtProgressBar(pb, s)
-					}
+
+					Fis_sim_0 <- Fis(tab_sim, RR = FALSE, genet = FALSE)[,4]
+						if (sum(is.na(Fis_sim_0)) != 0){
+							Fis_sim <- c(Fis_sim, mean(Fis_sim_0[-which(is.na(Fis_sim_0))]))
+						} else {
+							Fis_sim <- c(Fis_sim, mean(Fis_sim_0))
+						}
+					FisWR_sim_0 <- Fis(tab_sim, RR = FALSE, genet = TRUE)[,4]
+						if (sum(is.na(FisWR_sim_0)) != 0){
+							FisWR_sim <- c(FisWR_sim, mean(FisWR_sim_0[-which(is.na(FisWR_sim_0))]))
+						} else {
+							FisWR_sim <- c(FisWR_sim, mean(FisWR_sim_0))
+						}
+
+						if (bar){
+							setTxtProgressBar(pb, s)
+						}
 				}
 				
 				if (bar){
@@ -3376,6 +3420,11 @@ if (length(unlist(list_genet)) != nrow(data1)){stop("MLL list does not compute")
 if (G != N){
 
 	Beta_P <- Pareto_index_core(data1, listMLL)[1]
+
+if (nocoords){
+	Sp_L <- pval_SpL <- Sp_L_WR <- pval_SpLWR <- Sp_R <- pval_SpR <-  
+		Sp_R_WR <- pval_SpRWR <- NA
+	} else {
 
 	res1 <- autocorrelation_core(data1, haploid, coords, listMLL, 
 	Loiselle = TRUE, Ritland = FALSE,
@@ -3413,6 +3462,7 @@ if (G != N){
 	Sp_R_WR <- res4$Slope_and_Sp_index[1,3]
 	pval_SpRWR <- res1$Slope_and_Sp_index[10,3]
 
+	}
 
 	R <- (G-1)/(N-1)
 	count_MLG <- unlist(lapply(list_genet, length))
@@ -3428,8 +3478,9 @@ if (G != N){
       
 } else {
 	L <- "no_clone"
-	R <- Beta_P <- Sp_L <- pval_SpL <- Sp_L_WR <- pval_SpLWR <- Sp_R <- pval_SpR <-  
+	Beta_P <- Sp_L <- pval_SpL <- Sp_L_WR <- pval_SpLWR <- Sp_R <- pval_SpR <-  
 		Sp_R_WR <- pval_SpRWR <- Hpp <- Jp <- Dp <- V <- Hill <- NA
+	R <- 1
 }
 
 	tab <- as.data.frame(matrix(c(N, L, G, nb_all, SE, res_Fis, pval_Fis, res_Fis_WR, 
@@ -3444,17 +3495,23 @@ tab
 }
 
 
-genclone <- function(data1, haploid = FALSE, coords = NULL, vecpop = NULL, listMLL = NULL, nbrepeat = NULL, bar = FALSE){
+GenClone <- function(data1, haploid = FALSE, coords = NULL, vecpop = NULL, listMLL = NULL, nbrepeat = NULL, bar = FALSE){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)){
+			stop("vecpop length is not equal to the number of rows of your dataset.")
+		}
 
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
 
 		datafreq <- freq_RR(data1, haploid, vecpop, genet = FALSE, RR = FALSE)
 		datatot <- split(data1, vecpop)
-		coordtot <- split(coords, vecpop)
+			if (length(coords) == 0){
+				coordtot <- NULL
+			} else {
+				coordtot <- split(coords, vecpop)
+			}
 		res <- as.data.frame(matrix(NA, ncol = 24, nrow = 1))
 		colnames(res) <- c("N", "Lineage", "nb_L", "nb_all", "SE", "Fis", "pval_2sides", "Fis_WR", 
 			"pval_2sides", "R", "Pareto_index", "Sp_Loiselle", "pval_2sides", "Sp_L_WR", 
@@ -3462,14 +3519,18 @@ genclone <- function(data1, haploid = FALSE, coords = NULL, vecpop = NULL, listM
 			"D", "V", "Hill")
 			for (p in 1:length(unique(vecpop))){
 				rownames(datatot[[p]]) <- 1:nrow(datatot[[p]])
-				rownames(coordtot[[p]]) <- 1:nrow(coordtot[[p]])
-				res <- rbind(res, genclone_core(datatot[[p]], datafreq[[p]], haploid, coordtot[[p]], listMLL[[p]], nbrepeat, bar))
+					if (length(coords) == 0){
+						coordtot <- NULL
+					} else {
+						rownames(coordtot[[p]]) <- 1:nrow(coordtot[[p]])
+					}
+				res <- rbind(res, GenClone_core(datatot[[p]], datafreq[[p]], haploid, coordtot[[p]], listMLL[[p]], nbrepeat, bar))
 			}
 		res <- res[-1,]
 		rownames(res) <- unique(vecpop_o)
 	} else {
 		datafreq <- freq_RR(data1, haploid, vecpop, genet = FALSE, RR = FALSE)
-		res <- genclone_core(data1, datafreq, haploid, coords, listMLL, nbrepeat, bar)
+		res <- GenClone_core(data1, datafreq, haploid, coords, listMLL, nbrepeat, bar)
 	}
 	res
 }

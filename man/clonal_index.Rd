@@ -16,7 +16,7 @@ clonal_index(data1, vecpop = NULL, listMLL = NULL)
 
 \arguments{
   \item{data1}{
-a \command{Rclone} table with one allele per column, haploid or diploid data.
+a \command{RClone} table with one allele per column, haploid or diploid data.
 }
   \item{vecpop}{
 vector, option, \command{vecpop} indicates the population name of each unit
@@ -31,7 +31,8 @@ option, a custom list of MLL.
 \details{
 \command{clonal_index} returns:
 \itemize{
-\item{the number of genotypes \command{G},}
+\item{the number of units \command{N},}
+\item{the number of unique genotypes \command{G},}
 \item{the clonal diversity index \command{R} (Dorken & Eckert 2001; 
 Ellstrand & Roose 1987),}
 \item{the Shannon-Wiener index estimator \command{H''} (Pielou 1966),}

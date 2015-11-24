@@ -4,7 +4,7 @@
 \alias{export_genclone_arlequin}
 
 \title{
-export data file to Adegent, Genetix and Arlequin
+export data file to Adegenet, Genetix and Arlequin
 }
 
 \description{
