@@ -1,6 +1,6 @@
 ---
-title: "RClone quickmanual one population"
-author: "Diane Bailleul"
+title: "RClone quickmanual: one population"
+author: "Diane Bailleul, Solenn Stoeckel and Sophie Arnaud-Haond"
 date: "`r Sys.Date()`"
 output: rmarkdown::pdf_document
 pdf_document:
