@@ -784,7 +784,7 @@ psex_core <- function(data1, data2, haploid = FALSE, MLGsim = FALSE, nbrepeat = 
 	res_pgen <- pgen_core(data1, data2, haploid)
 	tab <- as.data.frame(matrix(NA, ncol = 2, nrow = nrow(data1)))
 
-	if (length(list_genet[which(sapply(list_genet, length) > 1)]) > 1){
+	if (length(list_genet[which(sapply(list_genet, length) > 1)]) >= 1){
 
 	if (MLGsim){
 		for (m in 1:length(list_genet[which(sapply(list_genet, length) > 1)])){
@@ -940,7 +940,7 @@ psex_Fis_core <- function(data1, data2, MLGsim = FALSE, genet = FALSE, RR = FALS
 	tab <- as.data.frame(matrix(NA, ncol = 2, nrow = nrow(data1)))
 	list_genet <- MLG_list(data1)
 
-	if (length(list_genet[which(sapply(list_genet, length) > 1)]) > 1){
+	if (length(list_genet[which(sapply(list_genet, length) > 1)]) >= 1){
 
 	if (MLGsim){
 		for (m in 1:length(list_genet[which(sapply(list_genet, length) > 1)])){

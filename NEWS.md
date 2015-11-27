@@ -1,3 +1,9 @@
+# RClone v1.0.1 (11/27/2015)
+
+## Bug fixes
+
+*psex* and *psex_Fis* functions now work with just ONE clone.
+
 # RClone v1.0.1 (11/24/2015)
 
 ## Minor changes
