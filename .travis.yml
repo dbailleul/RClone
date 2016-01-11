@@ -6,3 +6,6 @@ notifications:
   email:
     on_success: change
     on_failure: always
+    
+r_build_args: "--no-build-vignettes"
+r_check_args: "--no-build-vignettes --as-cran"
