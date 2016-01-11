@@ -164,12 +164,10 @@ boxplot(resvigncont2$res2_SU1$Arcouest$raw_MLG, main = "Genotype accumulation cu
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  pgen(zostera, vecpop = popvec)
-#  data(factoR) #for psex
 #  psex(zostera, vecpop = popvec)
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  pgen(haplodata, haploid = TRUE, vecpop = haplovec)
-#  data(factoR) #for psex
 #  psex(haplodata, haploid = TRUE, vecpop = haplovec)
 
 ## ---- eval = FALSE-------------------------------------------------------
@@ -186,13 +184,11 @@ boxplot(resvigncont2$res2_SU1$Arcouest$raw_MLG, main = "Genotype accumulation cu
 #  										#with p-values and a progression bar
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  data(factoR)
 #  res <- psex(zostera, vecpop = popvec, RR = TRUE, nbrepeat = 1000)
 #  res$Arcouest[[1]]
 #  #if nbrepeat != 0, res contains a table of psex values and a vector of sim-psex values
 
 ## ---- echo = FALSE-------------------------------------------------------
-data(factoR)
 knitr::kable(resvigncont2$res2_PS2, align = "c")
 
 ## ---- eval = FALSE-------------------------------------------------------
@@ -234,7 +230,6 @@ knitr::kable(Fis(zostera, vecpop = popvec, RR = TRUE)$Arcouest[[2]], align = "c"
 #  											#with p-values and a progression bar
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  data(factoR)
 #  res <- psex_Fis(zostera, vecpop = popvec, RR = TRUE, nbrepeat = 1000)
 #  res$Arcouest[[1]]
 #  #if nbrepeat != 0, res contains a table of psex values and a vector of sim-psex Fis values

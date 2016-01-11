@@ -64,7 +64,7 @@ data(posidonia)
 res <- export_genclone_genind(posidonia, "/")
 #library(adegenet)
 #res2 <- df2genind(res, ploidy = 2, sep = "/")
-#res2$loc.nall
+#nAll(res2)
 
 #RClone to Genetix:
 export_genclone_genetix(posidonia, name = "test.txt")

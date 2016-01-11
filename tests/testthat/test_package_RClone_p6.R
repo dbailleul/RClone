@@ -2,8 +2,16 @@ context("RClone Package Global Test")
 
 test_that("the GenClone function works", {
 
+	skip_on_cran()
+
 	data(posidonia)
 	data(coord_posidonia)
+	
+	prev <- GenClone_core(posidonia, freq_RR(posidonia))
+	
+	expect_that(prev, is_a("data.frame"))
+	expect_that(ncol(prev),  equals(24))
+	
 	res_tot <- GenClone(posidonia, coords = coord_posidonia)
 	res_wc <- GenClone(posidonia) #without coordinates
 
@@ -13,10 +21,18 @@ test_that("the GenClone function works", {
  	expect_that(ncol(res_wc),  equals(24))
 	expect_that(sum(is.na(res_tot)),  equals(6))
 	expect_that(sum(is.na(res_wc)),  equals(10))
+	
+	res <- popsimgen(posidonia) #sub-function
+	
+	expect_that(res, is_a("data.frame"))
+	expect_that(nrow(res),  equals(40))
+ 	expect_that(ncol(res),  equals(14))
 
 })
 
 test_that("internal functions of GenClone are OK", {
+
+	skip_on_cran()
 
 	data(posidonia)
 	data(coord_posidonia)

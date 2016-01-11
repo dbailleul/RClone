@@ -14,7 +14,7 @@ Description: R version of 'GenClone' (a computer program to analyse genotypic da
 License: GPL (>=2.0)
 LazyLoad: yes
 Depends: R (>= 3.2.0), graphics, stats, grDevices, utils, datasets, methods
-URL: https://www.dropbox.com/sh/8vx9kty4ny5dn7j/AABj8iqX-TzKwheuDtgE7peGa?dl=0
+URL: https://github.com/dbailleul/RClone
 Suggests: knitr, pander,
     testthat
 VignetteBuilder: knitr

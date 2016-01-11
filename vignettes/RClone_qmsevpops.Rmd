@@ -377,13 +377,11 @@ sample_units(haplodata, haploid = TRUE, vecpop = haplovec, nbrepeat = 1000)
 Basic commands:
 ```{r, eval = FALSE}
 pgen(zostera, vecpop = popvec)
-data(factoR) #for psex
 psex(zostera, vecpop = popvec)
 ```
 <span style="color:red">or, for haploid data:</span>
 ```{r, eval = FALSE}
 pgen(haplodata, haploid = TRUE, vecpop = haplovec)
-data(factoR) #for psex
 psex(haplodata, haploid = TRUE, vecpop = haplovec)
 ```
 
@@ -405,13 +403,11 @@ psex(zostera, vecpop = popvec, nbrepeat = 1000, bar = TRUE)
 
 Results:
 ```{r, eval = FALSE}
-data(factoR)
 res <- psex(zostera, vecpop = popvec, RR = TRUE, nbrepeat = 1000) 
 res$Arcouest[[1]] 
 #if nbrepeat != 0, res contains a table of psex values and a vector of sim-psex values
 ```
 ```{r, echo = FALSE}
-data(factoR)
 knitr::kable(resvigncont2$res2_PS2, align = "c")
 ```
 ```{r, eval = FALSE}
@@ -488,7 +484,6 @@ psex_Fis(zostera, vecpop = popvec, nbrepeat = 1000, bar = TRUE)
 
 Results:
 ```{r, eval = FALSE}
-data(factoR)
 res <- psex_Fis(zostera, vecpop = popvec, RR = TRUE, nbrepeat = 1000) 
 res$Arcouest[[1]] 
 #if nbrepeat != 0, res contains a table of psex values and a vector of sim-psex Fis values

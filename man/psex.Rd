@@ -53,10 +53,6 @@ option, if \command{TRUE}, a progression bar appears.
 }
 
 \details{
-\command{psex} and \command{psex_Fis} won't work without \command{factoR} data (see
-examples).
-
-
 We strongly recommand to use \command{RR = TRUE} option to compute allelic 
 frequencies for clonal data.  
 Otherwise, we let the options to work with frequencies at genet level 
@@ -93,8 +89,8 @@ and \command{Fis} calculation (see \code{\link{freq_RR}} and \code{\link{Fis}}).
 \value{
 For one population: \cr
 \itemize{
-\item if \command{pvalue = FALSE}, a table with psex values,
-\item if \command{pvalue = TRUE}, a list of a table with \command{psex} values 
+\item if \command{nbrepeat} is not provided, a table with psex values,
+\item if \command{nbrepeat} is provided, a list of a table with \command{psex} values 
 and p-values and a vector of \command{sim psex}.
 }
 
@@ -133,7 +129,7 @@ Maintainer: Diane Bailleul <diane.bailleul@gmail.com>
 Author: Sophie Arnaud-Haond <sohie.arnaud@ifremer.fr>
 }
 
-\section{Warning}{If \command{sim psex} are less than 100, a warning message pops, as 
+\section{Warning}{If \command{sim_psex} are less than 100, a warning message pops, as 
 clones are not necessarily generated each simulation.}
 
 \seealso{
@@ -141,7 +137,6 @@ clones are not necessarily generated each simulation.}
 }
 
 \examples{
-data(factoR) #MANDATORY
 data(posidonia)
 
 psex(posidonia, RR = TRUE)

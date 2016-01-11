@@ -149,12 +149,10 @@ boxplot(resvigncont$res_SU1$raw_MLG, main = "Genotype accumulation curve", xlab 
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  pgen(posidonia)
-#  data(factoR) #for psex
 #  psex(posidonia)
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  pgen(haplodata, haploid = TRUE)
-#  data(factoR) #for psex
 #  psex(haplodata, haploid = TRUE)
 
 ## ---- eval = FALSE-------------------------------------------------------
@@ -170,13 +168,11 @@ boxplot(resvigncont$res_SU1$raw_MLG, main = "Genotype accumulation curve", xlab 
 #  psex(posidonia, nbrepeat = 1000, bar = TRUE) #with p-values and a progression bar
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  data(factoR)
 #  res <- psex(posidonia, RR = TRUE, nbrepeat = 1000)
 #  res[[1]] #if nbrepeat != 0, res contains a table of psex values
 #  									#and a vector of sim-psex values
 
 ## ---- echo = FALSE-------------------------------------------------------
-data(factoR)
 
 knitr::kable(resvigncont$res_PS2, align = "c")
 
@@ -218,7 +214,6 @@ knitr::kable(Fis(posidonia, RR = TRUE)[[2]], align = "c")
 #  psex_Fis(posidonia, nbrepeat = 1000, bar = TRUE) #with p-values and a progression bar
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  data(factoR)
 #  res <- psex_Fis(posidonia, RR = TRUE, nbrepeat = 1000)
 #  res[[1]]
 #  #if nbrepeat != 0, res contains a table of psex values

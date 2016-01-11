@@ -512,7 +512,7 @@ freq_finder <- function(data1, i , j, haploid = FALSE, genet = FALSE, RR = FALSE
 	index_l <- 1:c(ncol(data1)/2)*2-1
 	ncol1 <- 2
 	ncol2 <- 3
-	data2 <- freq_RR(data1, haploid, genet, RR)
+	data2 <- freq_RR(data1, haploid, vecpop = NULL, genet, RR)
 		if (sum(j == index_l) != 0){
 			freq <- data2[as.numeric(rownames(data2[data2==paste("locus", c((j+1)/2), sep="_"),])[which(data2[data2==paste("locus", c((j+1)/2), sep="_"), ncol1]==data1[i,j])]), ncol2]
 		} else {
@@ -773,14 +773,17 @@ pgen_Fis <- function(data1, vecpop = NULL, genet = FALSE, RR = FALSE){
 #probability of one genotype with repro events: psex
 ####################################################
 
-#load("C:/Users/Diane/RClone/data/factoR.rda")
 
 psex_core <- function(data1, data2, haploid = FALSE, MLGsim = FALSE, nbrepeat = NULL, bar = FALSE){
+
+	if (nrow(data1) == nrow(unique(data1))){
+		print("Warning: no repeated genotype in this population.")
+		psexFR <- NULL
+	} else {
 
 	list_genet <- MLG_list(data1)
 	ncol_all <- 2
 	ncol_freq <- 3
-	factoR <- factoR
 	res_pgen <- pgen_core(data1, data2, haploid)
 	tab <- as.data.frame(matrix(NA, ncol = 2, nrow = nrow(data1)))
 
@@ -791,9 +794,7 @@ psex_core <- function(data1, data2, haploid = FALSE, MLGsim = FALSE, nbrepeat = 
 			recup <- NULL
 			sub_list <- list_genet[which(sapply(list_genet, length) > 1)][[m]]
 			l <- sub_list[1]
-			recup <- c(recup, factoR[nrow(data1),2]/(factoR[length(sub_list), 2]*factoR[c(nrow(data1)-length(sub_list)),2])*
-				(res_pgen[l,])^(length(sub_list))*
-				(1-res_pgen[l,])^(nrow(data1)-length(sub_list)))
+			recup <- c(recup, dbinom(length(sub_list), nrow(data1), res_pgen[l,]))
 			tab[list_genet[which(sapply(list_genet, length) > 1)][[m]],2] <- recup
 			tab[list_genet[which(sapply(list_genet, length) > 1)][[m]],1] <- list_genet[which(sapply(list_genet, length) > 1)][[m]][1]
 		}
@@ -801,9 +802,7 @@ psex_core <- function(data1, data2, haploid = FALSE, MLGsim = FALSE, nbrepeat = 
 		for (m in 1:length(list_genet[which(sapply(list_genet, length) > 1)])){
 			recup <- NULL
 				for (l in list_genet[which(sapply(list_genet, length) > 1)][[m]][-1]){
-					recup <- c(recup, factoR[nrow(data1),2]/(factoR[which(list_genet[which(sapply(list_genet, length) > 1)][[m]][-1]==l),2]*factoR[c(nrow(data1)-which(list_genet[which(sapply(list_genet, length) > 1)][[m]][-1]==l)),2])*
-					(res_pgen[l,])^(which(list_genet[which(sapply(list_genet, length) > 1)][[m]][-1]==l))*
-					(1-res_pgen[l,])^(nrow(data1)-which(list_genet[which(sapply(list_genet, length) > 1)][[m]][-1]==l)))
+					recup <- c(recup, dbinom(which(list_genet[which(sapply(list_genet, length) > 1)][[m]][-1] == l), nrow(data1),res_pgen[l,]))
 				}
 			tab[list_genet[which(sapply(list_genet, length) > 1)][[m]][-1],2] <- recup
 			tab[list_genet[which(sapply(list_genet, length) > 1)][[m]][-1],1] <- list_genet[which(sapply(list_genet, length) > 1)][[m]][1]
@@ -842,18 +841,14 @@ psex_core <- function(data1, data2, haploid = FALSE, MLGsim = FALSE, nbrepeat = 
 							recup <- NULL
 							sub_list <- list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]]
 							l <- sub_list[1]
-							recup <- c(recup, factoR[nrow(tab_sim),2]/(factoR[length(sub_list), 2]*factoR[c(nrow(tab_sim)-length(sub_list)),2])*
-								(pgen_sim[l,])^(length(sub_list))*
-								(1-pgen_sim[l,])^(nrow(tab_sim)-length(sub_list)))
+							recup <- c(recup, dbinom(length(sub_list), nrow(tab_sim), pgen_sim[l,]))
 						}
 					psex_sim <- c(psex_sim, recup)
 	} else {
 						for (m in 1:length(list_genet_sim[which(sapply(list_genet_sim, length) > 1)])){
 							recup <- NULL
 								for(l in list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]][-1]){
-									recup <- c(recup, factoR[nrow(tab_sim), 2]/(factoR[which(list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]][-1]==l), 2]*factoR[c(nrow(tab_sim)-which(list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]][-1]==l)),2])*
-										(pgen_sim[l,])^(which(list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]][-1]==l))*
-										(1-pgen_sim[l,])^(nrow(tab_sim)-which(list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]][-1]==l)))
+									recup <- c(recup, dbinom(which(list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]][-1] == l), nrow(tab_sim), pgen_sim[l,]))
 								}
 							psex_sim <- c(psex_sim, recup)
 						}
@@ -890,6 +885,8 @@ psex_core <- function(data1, data2, haploid = FALSE, MLGsim = FALSE, nbrepeat = 
 	psexFR[is.na(psexFR)] <- ""
 	psexFR
 	}
+	}
+
 	}
 }
 
@@ -933,9 +930,13 @@ psex <- function(data1, haploid = FALSE, vecpop = NULL, genet = FALSE, RR = FALS
 
 psex_Fis_core <- function(data1, data2, MLGsim = FALSE, genet = FALSE, RR = FALSE, nbrepeat = NULL, bar = FALSE){
 
+	if (nrow(data1) == nrow(unique(data1))){
+		print("Warning: no repeated genotype in this population.")
+		psexFR_Fis <- NULL
+	} else {
+
 	ncol_all <- 2
 	ncol_freq <- 3
-	factoR <- factoR
 	pgenFis <- pgen_Fis_core(data1, data2, genet, RR)
 	tab <- as.data.frame(matrix(NA, ncol = 2, nrow = nrow(data1)))
 	list_genet <- MLG_list(data1)
@@ -947,9 +948,7 @@ psex_Fis_core <- function(data1, data2, MLGsim = FALSE, genet = FALSE, RR = FALS
 			recup <- NULL
 			sub_list <- list_genet[which(sapply(list_genet, length) > 1)][[m]]
 			l <- sub_list[1]
-			recup <- c(recup, factoR[nrow(data1),2]/(factoR[length(sub_list), 2]*factoR[c(nrow(data1)-length(sub_list)),2])*
-				(pgenFis[l,])^(length(sub_list))*
-				(1-pgenFis[l,])^(nrow(data1)-length(sub_list)))
+			recup <- c(recup, dbinom(length(sub_list), nrow(data1), pgenFis[l,]))
 			tab[list_genet[which(sapply(list_genet, length) > 1)][[m]],2] <- recup
 			tab[list_genet[which(sapply(list_genet, length) > 1)][[m]],1] <- list_genet[which(sapply(list_genet, length) > 1)][[m]][1]
 		}
@@ -957,9 +956,7 @@ psex_Fis_core <- function(data1, data2, MLGsim = FALSE, genet = FALSE, RR = FALS
 		for (m in 1:length(list_genet[which(sapply(list_genet, length) > 1)])){
 			recup <- NULL
 				for (l in list_genet[which(sapply(list_genet, length) > 1)][[m]][-1]){
-					recup <- c(recup, factoR[nrow(data1),2]/(factoR[which(list_genet[which(sapply(list_genet, length) > 1)][[m]][-1]==l),2]*factoR[c(nrow(data1)-which(list_genet[which(sapply(list_genet, length) > 1)][[m]][-1]==l)),2])*
-					(pgenFis[l,])^(which(list_genet[which(sapply(list_genet, length) > 1)][[m]][-1]==l))*
-					(1-pgenFis[l,])^(nrow(data1)-which(list_genet[which(sapply(list_genet, length) > 1)][[m]][-1]==l)))
+					recup <- c(recup, dbinom(which(list_genet[which(sapply(list_genet, length) > 1)][[m]][-1] == l), nrow(data1), pgenFis[l,]))
 				}
 			tab[list_genet[which(sapply(list_genet, length) > 1)][[m]][-1],2] <- recup
 			tab[list_genet[which(sapply(list_genet, length) > 1)][[m]][-1],1] <- list_genet[which(sapply(list_genet, length) > 1)][[m]][1]
@@ -998,18 +995,14 @@ psex_Fis_core <- function(data1, data2, MLGsim = FALSE, genet = FALSE, RR = FALS
 							recup <- NULL
 							sub_list <- list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]]
 							l <- sub_list[1]
-							recup <- c(recup, factoR[nrow(tab_sim),2]/(factoR[length(sub_list), 2]*factoR[c(nrow(tab_sim)-length(sub_list)),2])*
-								(pgenFis_sim[l,])^(length(sub_list))*
-								(1-pgenFis_sim[l,])^(nrow(tab_sim)-length(sub_list)))
+							recup <- c(recup, dbinom(length(sub_list), nrow(tab_sim), pgenFis_sim[l,]))
 						}
 					psexFis_sim <- c(psexFis_sim, recup)
 	} else {
 						for (m in 1:length(list_genet_sim[which(sapply(list_genet_sim, length) > 1)])){
 							recup <- NULL
 								for (l in list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]][-1]){
-									recup <- c(recup, factoR[nrow(tab_sim), 2]/(factoR[which(list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]][-1]==l), 2]*factoR[c(nrow(tab_sim)-which(list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]][-1]==l)),2])*
-										(pgenFis_sim[l,])^(which(list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]][-1]==l))*
-										(1-pgenFis_sim[l,])^(nrow(tab_sim)-which(list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]][-1]==l)))
+									recup <- c(recup, dbinom(which(list_genet_sim[which(sapply(list_genet_sim, length) > 1)][[m]][-1] == l), nrow(tab_sim), pgenFis_sim[l,]))
 								}
 							psexFis_sim <- c(psexFis_sim, recup)
 						}
@@ -1047,6 +1040,8 @@ psex_Fis_core <- function(data1, data2, MLGsim = FALSE, genet = FALSE, RR = FALS
 	psexFR_Fis[is.na(psexFR_Fis)] <- ""
 	psexFR_Fis
 	}
+	}
+
 	}
 }
 
@@ -3288,7 +3283,7 @@ edge_effect <- function(data1, coords = NULL, center = NULL, vecpop = NULL, nbre
 
 
 #################
-#Fonction bonus :
+#Bonus function :
 #################
 
 popsimgen <- function(data1, haploid = FALSE){

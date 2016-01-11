@@ -362,13 +362,11 @@ sample_units(haplodata, haploid = TRUE, nbrepeat = 1000)
 Basic commands:
 ```{r, eval = FALSE}
 pgen(posidonia)
-data(factoR) #for psex
 psex(posidonia)
 ```
 <span style="color:red">or, for haploid data:</span>
 ```{r, eval = FALSE}
 pgen(haplodata, haploid = TRUE)
-data(factoR) #for psex
 psex(haplodata, haploid = TRUE)
 ```
 
@@ -389,13 +387,11 @@ psex(posidonia, nbrepeat = 1000, bar = TRUE) #with p-values and a progression ba
 
 Results:
 ```{r, eval = FALSE}
-data(factoR)
 res <- psex(posidonia, RR = TRUE, nbrepeat = 1000)
 res[[1]] #if nbrepeat != 0, res contains a table of psex values 
 									#and a vector of sim-psex values
 ```
 ```{r, echo = FALSE}
-data(factoR)
 
 knitr::kable(resvigncont$res_PS2, align = "c")
 ```
@@ -471,7 +467,6 @@ psex_Fis(posidonia, nbrepeat = 1000, bar = TRUE) #with p-values and a progressio
 
 Results:
 ```{r, eval = FALSE}
-data(factoR)
 res <- psex_Fis(posidonia, RR = TRUE, nbrepeat = 1000)
 res[[1]] 
 #if nbrepeat != 0, res contains a table of psex values 

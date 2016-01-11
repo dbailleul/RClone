@@ -1,7 +1,6 @@
 \name{RClone-package}
 \alias{RClone-package}
 \alias{RClone}
-\alias{GenClone}
 \alias{RClone_quickmanual}
 \docType{package}
 
