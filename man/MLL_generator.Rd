@@ -104,11 +104,26 @@ The R implementation of \command{RClone} was written by Diane Bailleul working f
 The design was inspired by GenClone program described in Arnaud-Haond & Belkhir (2007).
 
 
-Maintainer: Diane Bailleul <diane.bailleul@gmail.com>
+Maintainer: Diane Bailleul <diane.bailleul.pro@gmail.com>
 
 
 Author: Sophie Arnaud-Haond <sohie.arnaud@ifremer.fr>
 }
 
+\seealso{
+\code{\link{genet_dist}}
+}
+
+\examples{
+data(popsim)
+
+#MLLlist <- MLL_generator(popsim, alpha2 = 4)
+#or
+#res <- genet_dist(popsim, alpha2 = 4)
+#MLLlist <- MLL_generator2(res$potential_clones, MLG_list(popsim))
+#take few seconds
+}
 
 \keyword{documentation}
+
+

@@ -4,7 +4,11 @@
 
 - *factoR* data for *psex*/*psex_Fis* is removed from package (now works with dbinom(), thanks to reviewer) ;
 
-- unit tests added for nearly every function (recommended by reviewers).
+- unit tests added for nearly every function (recommended by reviewers) ;
+
+- Travis added ;
+
+- email correction for better users service.
 
 ## Minor fixes
 

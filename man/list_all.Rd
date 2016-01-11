@@ -46,7 +46,7 @@ The R implementation of \command{RClone} was written by Diane Bailleul working f
 The design was inspired by GenClone program described in Arnaud-Haond & Belkhir (2007).
 
 
-Maintainer: Diane Bailleul <diane.bailleul@gmail.com>
+Maintainer: Diane Bailleul <diane.bailleul.pro@gmail.com>
 
 
 Author: Sophie Arnaud-Haond <sohie.arnaud@ifremer.fr>
