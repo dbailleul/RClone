@@ -11,8 +11,8 @@ convert_GC <- function(data1, num, ele){
 	}
 	mat_all <- as.data.frame(t(apply(res, 2, function(x) rbind(x))), stringsAsFactors = FALSE)
 
-	if (ncol(mat_all) != ncol(data1)*2) {stop("Warning 1")}
-	if (nrow(mat_all) != nrow(data1)) {stop("Warning 2")}
+	if (ncol(mat_all) != ncol(data1)*2) {stop("Error: Entry data format might be incorrect")}
+	if (nrow(mat_all) != nrow(data1)) {stop("Error: Entry data format might be incorrect")}
 
 	names(mat_all) <- unlist(lapply(names(data1), function(x) paste(x, 1:2, sep = "_")))
 mat_all
@@ -26,11 +26,11 @@ transcript_GC <- function(obj, ele, num1, num2, num3){
 	coord_center <- c(mean(c(0,dataGC[1,2])), mean(c(0,dataGC[1,3])))
 	nb_loci <- dataGC[1,4]
 	ploid <- dataGC[1,5]
-		if (ploid != num1){stop("Ploidy different from indicated")}
+		if (ploid != num1){stop("Error: Ploidy different from indicated")}
 	names_loci <- dataGC[1,6:ncol(dataGC)]
 	names_loci <- as.vector(apply(names_loci, 1:2, function(x) x <- c(as.vector(x))))
-		if (length(names_loci) != nb_loci){stop("Number of loci names different")}
-		if (nb_loci != num2){stop("Number of loci different from indicated")}
+		if (length(names_loci) != nb_loci){stop("Error: Number of loci names different")}
+		if (nb_loci != num2){stop("Error: Number of loci different from indicated")}
 
 	dataGC <- dataGC[-1,]
 	coord <- dataGC[,2:3]
@@ -167,7 +167,7 @@ if (haploid){
 						if (i < 10000){
 							mat[i,] <- paste(paste("      ", i, " ", 1, " ", sep = ""), data1[i,index_l], sep = "")
 						} else {
-							if (i > 10000) stop("Export to Arlequin is not available for N > 10000")
+							if (i > 10000) stop("Error: Export to Arlequin is not available for N > 10000")
 						}
 					}
 				}
@@ -191,7 +191,7 @@ if (haploid){
 							mat[(i*2-1),] <- paste(paste("      ", i, " ", 1, " ", sep = ""), paste(data1[i,index_l], collapse = " "), sep = "")
 							mat[(i*2),] <- paste("             ", paste(data1[i,index_l+1], collapse = " "), sep = "")
 						} else {
-							if (i > 10000) stop("Export to Arlequin is not available for N > 10000")
+							if (i > 10000) stop("Error: Export to Arlequin is not available for N > 10000")
 						}
 					}
 				}
@@ -248,7 +248,7 @@ list_all_obj_core <- function(data1, haploid = FALSE){
 list_all_obj <- function(data1, haploid = FALSE, vecpop = NULL){
 
 		if (length(vecpop) != 0){
-			if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+			if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 			
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -289,7 +289,7 @@ list_all_tab_core <- function(data1, haploid = FALSE){
 list_all_tab <- function(data1, haploid = FALSE, vecpop = NULL){
 
 		if (length(vecpop) != 0){
-			if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+			if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 			
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -329,7 +329,7 @@ list_all_tab2_core <- function(data1, haploid = FALSE){
 list_all_tab2 <- function(data1, haploid = FALSE, vecpop = NULL){
 
 		if (length(vecpop) != 0){			
-			if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+			if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 			
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -367,7 +367,7 @@ MLG_list_core <- function(data1){
 MLG_list <- function(data1, vecpop = NULL){
 
 		if (length(vecpop) != 0){
-			if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+			if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 			
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -404,7 +404,7 @@ MLG_tab_core <- function(data1){
 MLG_tab <- function(data1, vecpop = NULL){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -479,7 +479,7 @@ freq_RR_core <- function(data1, haploid = FALSE, genet = FALSE, RR = FALSE){
 freq_RR <- function(data1, haploid = FALSE, vecpop = NULL, genet = FALSE, RR = FALSE){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -577,7 +577,7 @@ pgen <- function(data1, haploid = FALSE, vecpop = NULL, genet = FALSE, RR = FALS
 	}
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -670,7 +670,7 @@ Fis <- function(data1, vecpop = NULL, genet = FALSE, RR = FALSE){
 	}
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -749,7 +749,7 @@ pgen_Fis <- function(data1, vecpop = NULL, genet = FALSE, RR = FALSE){
 	}
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -905,7 +905,7 @@ psex <- function(data1, haploid = FALSE, vecpop = NULL, genet = FALSE, RR = FALS
 	}
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -1060,7 +1060,7 @@ psex_Fis <- function(data1, vecpop = NULL, genet = FALSE, RR = FALSE, MLGsim = F
 	}
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -1195,7 +1195,7 @@ res
 sample_loci <- function(data1, haploid = FALSE, vecpop = NULL, nbrepeat = 1000, He = FALSE, graph = FALSE, export = FALSE, bar = FALSE){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -1356,7 +1356,7 @@ res
 sample_units <- function(data1, haploid = FALSE, vecpop = NULL, nbrepeat = 1000, He = FALSE, graph = FALSE, export = FALSE, bar = FALSE){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -1600,7 +1600,7 @@ genet_dist <- function(data1, haploid = FALSE, vecpop = NULL, manh = FALSE, manh
 			alpha1 = NULL, alpha2 = NULL, export = FALSE){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -1706,7 +1706,7 @@ genet_dist_sim <- function(data1, haploid = FALSE, vecpop = NULL, nbrepeat = 100
 				breaking = NULL, export = FALSE){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)){stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)){stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -1797,7 +1797,7 @@ MLL_generator_core <- function(data1, haploid = FALSE, manh = FALSE, manh_w = FA
 MLL_generator <- function(data1, haploid = FALSE, vecpop = NULL, manh = FALSE, manh_w = FALSE, alpha1 = NULL, alpha2 = NULL){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -1933,7 +1933,7 @@ clonal_index_core <- function(data1, listMLL = NULL){
 clonal_index <- function(data1, vecpop = NULL, listMLL = NULL){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 
 		vecpop_o <- as.character(vecpop)
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -2031,7 +2031,7 @@ if (full){
 Pareto_index <- function(data1, vecpop = NULL, listMLL = NULL, full = FALSE, graph = FALSE, legends = 1, export = FALSE){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -2173,7 +2173,7 @@ as.dist(mat_auto)
 kinship_Loiselle <- function(data1, haploid = FALSE, vecpop = NULL){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)))
@@ -2260,7 +2260,7 @@ as.dist(mat_Rit2)
 kinship_Ritland <- function(data1, haploid = FALSE, vecpop = NULL){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)))
 
@@ -2781,7 +2781,7 @@ autocorrelation <- function(data1, haploid = FALSE, coords = NULL, vecpop = NULL
 	graph = FALSE, nbrepeat = NULL, export = FALSE){
 
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -3056,7 +3056,7 @@ clonal_sub <- function(data1, coords = NULL, vecpop = NULL, listMLL = NULL, clas
 	d = NULL, vecdist = NULL){
 	
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -3151,7 +3151,7 @@ list("results" = cbind(Ac, pval, nbrepeat), "simulation" = recup_p)
 agg_index <- function(data1, coords = NULL, vecpop = NULL, nbrepeat = 1, bar = FALSE, listMLL = NULL){
 	
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -3260,7 +3260,7 @@ list("results" = as.data.frame(cbind(Ee, pval_Ee, nbrepeat)), "simulations" = re
 edge_effect <- function(data1, coords = NULL, center = NULL, vecpop = NULL, nbrepeat = 1, bar = FALSE, listMLL = NULL){
 	
 	if (length(vecpop) != 0){			
-		if (length(vecpop) != nrow(data1)) {stop("vecpop length is not equal to the number of rows of your dataset.")}
+		if (length(vecpop) != nrow(data1)) {stop("Error: vecpop length is not equal to the number of rows of your dataset.")}
 
 		vecpop_o <- vecpop
 		vecpop <- c(rep(1:length(unique(vecpop)), times = table(vecpop)[unique(vecpop)]))
@@ -3494,7 +3494,7 @@ GenClone <- function(data1, haploid = FALSE, coords = NULL, vecpop = NULL, listM
 
 	if (length(vecpop) != 0){			
 		if (length(vecpop) != nrow(data1)){
-			stop("vecpop length is not equal to the number of rows of your dataset.")
+			stop("Error: vecpop length is not equal to the number of rows of your dataset.")
 		}
 
 		vecpop_o <- vecpop

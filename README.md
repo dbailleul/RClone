@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.org/dbailleul/RClone.svg?branch=master)](https://travis-ci.org/dbailleul/RClone)
+[![Coverage Status](https://coveralls.io/repos/dbailleul/RClone/badge.svg?branch=master&service=github)](https://coveralls.io/github/dbailleul/RClone?branch=master)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/RClone)](https://cran.r-project.org/web/packages/RClone)
+
+
 # RClone v1.0.1
 
 *RClone* is a R package version of *GenClone* program: to analyse data (SSR, SNP, ...), test for clonality and describe spatial clonal organisation.
