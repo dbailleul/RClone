@@ -164,6 +164,6 @@ test_that("the psex functions work", {
 	#expect_that(psex(posidonia, nbrepeat = 1), gives_warning())
 	#expect_that(psex_Fis(posidonia, nbrepeat = 1), gives_warning("No clone was found during Simulations."))
 	expect_that(psex(posidonia, nbrepeat = 1), prints_text("Warning: Simulated populations contain few repeated genotypes and p-value estimations may be incorrect."))
-	expect_that(psex_Fis(posidonia, nbrepeat = 1), throws_error())
+	expect_that(psex_Fis(posidonia, nbrepeat = 0), throws_error(""))
 	
 })

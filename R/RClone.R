@@ -1369,20 +1369,27 @@ sample_units <- function(data1, haploid = FALSE, vecpop = NULL, nbrepeat = 1000,
 					res[[p]] <- sample_units_core(datatot[[p]], haploid, nbrepeat, He, graph, bar)
 					par(ask = FALSE)
 
+					if (graph){
+						par(ask = TRUE)
+						boxplot(res[[p]]$raw_MLG, ylab = "Number of multilocus genotypes", 
+							xlab = "Number of units sampled")
+						title(paste("Genotype accumulation curve"))
+						par(ask = FALSE)
+					}
 					if (export){
-						postscript(paste(paste("sample_units", unique(vecpop)[[p]], sep = "_"), ".eps", sep = ""), onefile = FALSE, paper = "letter")
+						postscript(file = paste(paste("sample_units", unique(vecpop)[[p]], sep = "_"), ".eps", sep = ""), onefile = FALSE, paper = "letter")
 						boxplot(res[[p]]$raw_MLG, ylab = "Number of multilocus genotypes", 
 							xlab = "Number of units sampled")
 						title(paste("Genotype accumulation curve"))
 						dev.off()
-					}
+					}				
 				}
 					names(res) <- unique(vecpop_o)
 		} else {
 			res <- sample_units_core(data1, haploid, nbrepeat, He, graph, bar)
 				if (export){
-					postscript("sample_units.eps", onefile = FALSE, paper = "letter")
-					boxplot(res[[p]]$raw_MLG, ylab = "Number of multilocus genotypes", 
+					postscript(file = "sample_units.eps", onefile = FALSE, paper = "letter")
+					boxplot(res$raw_MLG, ylab = "Number of multilocus genotypes", 
 						xlab = "Number of units sampled")
 					title(paste("Genotype accumulation curve"))
 					dev.off()

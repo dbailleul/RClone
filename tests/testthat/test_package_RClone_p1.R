@@ -176,10 +176,12 @@ test_that("the sample functions work", {
 	prev1 <- sample_loci_core(posidonia, nbrepeat = 10)
 	prev2 <- sample_units_core(posidonia, nbrepeat = 10)
 	prev3 <- sample_loci_core(posidonia, haploid = TRUE, nbrepeat = 10)
+	prev4 <- sample_units_core(posidonia, haploid = TRUE, nbrepeat = 10)
 	
 	expect_that(prev1, is_a("list"))
 	expect_that(prev2, is_a("list"))
 	expect_that(prev3, is_a("list"))
+	expect_that(prev4, is_a("list"))
 	expect_that(length(prev1), equals(4))
 	expect_that(length(prev2), equals(4))
 	
@@ -187,8 +189,10 @@ test_that("the sample functions work", {
 	res2 <- sample_loci(posidonia, nbrepeat = 10, He = TRUE)
 	res3 <- sample_units(posidonia, nbrepeat = 10)
 	res4 <- sample_units(posidonia, nbrepeat = 10, He = TRUE)
-	res5 <- sample_loci(posidonia, bar = TRUE, nbrepeat = 10)
+	res5 <- sample_loci(posidonia, bar = TRUE, graph = TRUE, export = TRUE, nbrepeat = 10)
 	res6 <- sample_loci(posidonia, vecpop = rep(1,40))
+	res7 <- sample_units(posidonia, bar = TRUE, graph = TRUE, export = TRUE, nbrepeat = 10)
+	res8 <- sample_units(posidonia, vecpop = rep(1,40))
 		
 	expect_that(res1, is_a("list"))
 	expect_that(res2, is_a("list"))
@@ -196,6 +200,8 @@ test_that("the sample functions work", {
 	expect_that(res4, is_a("list"))
 	expect_that(res5, is_a("list"))
 	expect_that(res6, is_a("list"))
+	expect_that(res7, is_a("list"))
+	expect_that(res8, is_a("list"))
 	expect_that(length(res1), equals(4))
 	expect_that(length(res2), equals(5))
 	expect_that(length(res3), equals(length(res1)))
@@ -207,6 +213,8 @@ test_that("the sample functions work", {
 	expect_equal(ncol(res4[[2]]), ncol(res2[[2]]))
 	
 	expect_that(sample_loci(posidonia, vecpop = 1), throws_error(""))
+	expect_that(sample_units(posidonia, vecpop = 1), throws_error(""))
 	expect_that(sample_loci(posidonia, He = TRUE, haploid = TRUE), throws_error(""))
+	expect_that(sample_units(posidonia, He = TRUE, haploid = TRUE), throws_error(""))
 	
 })
