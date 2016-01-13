@@ -3536,4 +3536,3 @@ GenClone <- function(data1, haploid = FALSE, coords = NULL, vecpop = NULL, listM
 	}
 	res
 }
-

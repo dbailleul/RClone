@@ -32,7 +32,8 @@ knitr::opts_chunk$set(collapse = TRUE, comment = ">", dev = 'pdf')
 &nbsp;
 
 
-*RClone* is a R package version of *GenClone* program: to analyse data (SSR, SNP, ...), test for clonality and describe spatial clonal organisation.
+*RClone* is a R package version of *GenClone* program (Arnaud-Haond & Belkhir 2007): to analyse data (SSR, SNP, ...), test for clonality and describe spatial clonal organisation.  
+Major improvements are multi-populations handling and definition of MLLs (Multilocus Lineages, i.e. slightly distinct Multi Locus Genotypes) through simulations.
 
 
 &nbsp;
@@ -55,10 +56,10 @@ knitr::opts_chunk$set(collapse = TRUE, comment = ">", dev = 'pdf')
 4. Spatial organisation of MLG/MLL  
 * spatial autocorrelation methods;  
 * clonal subrange estimation;  
-* Aggregation index and Edge Effect estimation.  
+* Aggregation and Edge Effect indices estimation.  
 
 
-Some of these analysis can be applied to dataset without clones. 
+Some of these analysis can be applied to dataset with no repeated MLG, regardless of the reproductive system (sexual, partially asexual or strictly asexual). 
 
 
 &nbsp;
@@ -84,7 +85,11 @@ If you have only one population in your dataset, go to other vignette *<span sty
 <span style="color:red">If you have haploid data, you can skip to *D. Description of data set*.</span>
 
 
-An *RClone* table must look like:  
+&nbsp;
+
+
+To use *RClone* functions, your data table must look like:  
+
 
 ```{r}
 library(RClone)
@@ -95,6 +100,8 @@ knitr::kable(posidonia[1:10,1:8], align = "c")
 ```
 
 There is only one allele per column and, per locus, alleles are sorted by increasing order.  
+
+
 This is **mandatory** for all *RClone* functions.  
 
 
@@ -104,7 +111,7 @@ As formatting can be source of error, we included functions to help formatting y
 &nbsp;
 
 
-**1, The classic case: one locus per column**  
+**1, The classic infile you could have, one locus per column**  
 
 ```{r, eval = FALSE}
 data(zostera)
@@ -146,9 +153,12 @@ sort_all(zostera)
 ```
 
 
+
 **3, You already work with Adegenet**  
 
-It's a kind of like the case number 1, but you have to export your `genind` data into table first:  
+
+
+Similar to case number 1, except you have to export your `genind` data into table first:  
 
 ```{r, eval = FALSE}
 #library(adegenet)
@@ -263,7 +273,7 @@ knitr::kable(res, align = "c")
 
 
 
-### D.2 Test for reliability of data
+### D.2 Tests for reliability of loci and subsampling of individuals
 
 
 **On loci**
@@ -360,12 +370,14 @@ sample_units(haplodata, haploid = TRUE, vecpop = haplovec, nbrepeat = 1000)
 ```
 
 
+This sub-sampling analysis deliver basic estimates of richness and diversity for an increasing number of sampling units.  
+They can be used to standardise estimates of populations with different sampling effort.  
+
 
 &nbsp;
 
 
-
-## E. Determination of MLL
+## E. Discrimination of clonal lineages
 
 
 ### E.1 psex/psex Fis with pvalue computation
@@ -418,9 +430,7 @@ resvigncont2$res2_PS1$Arcouest[[2]][1:10]
 ```
 
 
-
 &nbsp;
-
 
 
 **Fis, pgen Fis, psex Fis and p-values**
@@ -502,15 +512,13 @@ resvigncont2$res2_PS3$Arcouest[[2]][1:10]
 &nbsp;
 
 
-
- 
-### E.2 MultiLocus Lineages
+### E.2 Tests for MLLs occurrence and assessment of their memberships
 
 
 **Genetic distance matrix computation and threshold definition**
 
 
-On a theoretical diploid population with c = 0.9999 (c, clonality rate).
+On a theoretical diploid population with c = 0.9999 (c, clonality rate):
 
 
 ```{r}
@@ -622,7 +630,7 @@ MLLlist <- MLL_generator2(list(res[[1]]$potential_clones, res[[2]]$potential_clo
 
 
 
-## F. Genotypic diversity and evenness indices calculation  
+## F. Genotypic diversity, richness and evenness indices calculation  
 
 
 ### F.1 Classic genotypic indices
@@ -721,7 +729,7 @@ res1$c_Pareto
 
 
 
-## G. Spatial description of clonality  
+## G. Spatial components of clonality  
 
 
 ### G.1 Spatial autocorrelation
@@ -984,10 +992,10 @@ knitr::kable(resvigncont2$res2_ee$SaintMalo$results, align = "c")
 
 
    
-## H. BONUS
+## H. BONUS: *"Ready to use"* Table
     
 
-*Summary function:*
+*Summary function of main results:*
 
 
 Basic commands:

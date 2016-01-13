@@ -32,7 +32,8 @@ knitr::opts_chunk$set(collapse = TRUE, comment = ">", dev = 'pdf')
 &nbsp;
 
 
-*RClone* is a R package version of *GenClone* program: to analyse data (SSR, SNP, ...), test for clonality and describe spatial clonal organisation.
+*RClone* is a R package version of *GenClone* program (Arnaud-Haond & Belkhir 2007): to analyse data (SSR, SNP, ...), test for clonality and describe spatial clonal organisation.
+Major improvements are multi-populations handling and definition of MLLs (Multilocus Lineages, i.e. slightly distinct Multi Locus Genotypes) through simulations.
 
 
 &nbsp;
@@ -55,7 +56,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = ">", dev = 'pdf')
 4. Spatial organisation of MLG/MLL  
 * spatial autocorrelation methods;  
 * clonal subrange estimation;  
-* Aggregation index and Edge Effect estimation.  
+* Aggregation and Edge Effect indices estimation.  
 
 
 Some of these analysis can be applied to dataset without clones. 
@@ -82,7 +83,7 @@ If you have several populations in your dataset, go to other vignette *<span sty
 <span style="color:red">If you have haploid data, you can skip to *4, For GenClone users * or *D. Description of data set*.</span>
 
 
-An *RClone* table must look like:  
+To use *RClone* functions, your data table must look like:  
 
 
 ```{r}
@@ -95,6 +96,8 @@ knitr::kable(posidonia[1:10,1:8], align = "c")
 
 
 There is only one allele per column and, per locus, alleles are sorted by increasing order.  
+
+
 This is **mandatory** for all *RClone* functions.  
 
 
@@ -115,7 +118,7 @@ sort_all(posidonia)
 ```
 
 
-**2, The classic case: one locus per column**  
+**2, The classic infile you could have: one locus per column**  
 
 
 ```{r}
@@ -138,10 +141,12 @@ We used "3" because this is the length of the allele (with 3 numbers).
 For allele separation, we used "/" because, of course, it was the separator.  
 
 
+
 **3, You already work with Adegenet**  
 
 
-It's a kind of like the case number 2, but you have to export your `genind` data into table first:  
+
+Similar to case number 2, except you have to export your `genind` data into table first:  
 
 
 ```{r, eval = FALSE}
@@ -270,7 +275,7 @@ knitr::kable(res, align = "c")
 
 
 
-### D.2 Test for reliability of data
+### D.2 Tests for reliability of loci and subsampling of individuals
 
 
 **On loci**
@@ -344,6 +349,10 @@ sample_units(posidonia, nbrepeat = 1000)
 ```{r, eval = FALSE}
 sample_units(haplodata, haploid = TRUE, nbrepeat = 1000)
 ```
+
+
+This sub-sampling analysis deliver basic estimates of richness and diversity for an increasing number of sampling units.  
+They can be used to standardise estimates of populations with different sampling effort.  
 
 
 &nbsp;
@@ -488,7 +497,7 @@ resvigncont$res_PS3[[2]]
 
 
  
-### E.2 MultiLocus Lineages
+### E.2 Tests for MLLs occurrence and assessment of their memberships
 
 
 **Genetic distance matrix computation and threshold definition**
@@ -564,7 +573,7 @@ MLLlist <- MLL_generator2(res$potential_clones, haploid = TRUE, MLG_list(haploda
 &nbsp;
 
 
-## F. Genotypic diversity and evenness indices calculation  
+## F. Genotypic diversity, richness and evenness indices calculation  
 
 
 ### F.1 Classic genotypic indices
@@ -637,7 +646,7 @@ res$c_Pareto
 
 
 
-## G. Spatial description of clonality  
+## G. Spatial components of clonality  
 
 
 ### G.1 Spatial autocorrelation
@@ -887,10 +896,10 @@ knitr::kable(resvigncont$resee$results, align = "c")
 &nbsp;
 
     
-## H. BONUS
+## H. BONUS: *"Ready to use"* Table
     
 
-*Summary function:*
+*Summary function of main results:*
 
 
 Basic commands:
