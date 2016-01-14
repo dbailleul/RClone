@@ -10,7 +10,6 @@ r_binary_packages:
   - testthat
   - knitr
   - rmarkdown
-  - qpdf
 
 after_success:
   - Rscript -e 'covr::coveralls()'
