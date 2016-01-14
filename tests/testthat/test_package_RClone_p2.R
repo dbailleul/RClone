@@ -162,7 +162,7 @@ test_that("the psex functions work", {
 	res10 <- psex_Fis(posidonia, MLGsim = TRUE)
 	res11 <- psex_Fis(posidonia, MLGsim = TRUE, genet = TRUE)
 	res12 <- psex_Fis(posidonia, MLGsim = TRUE, RR = TRUE)
-	res12b <- psex_Fis(posidonia, MLGsim = TRUE, nbrepeat = 20)
+	res12b <- psex_Fis(posidonia, MLGsim = TRUE, nbrepeat = 50)
 	res12c <- psex_Fis(posidonia, nbrepeat = 50, bar = TRUE)
 	res12d <- psex_Fis(posidonia, vecpop = rep(1, 40))
 	
