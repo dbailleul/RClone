@@ -5,12 +5,6 @@ sudo: required
 r_github_packages:
   - jimhester/covr
 
-r_binary_packages:
-  - devtools
-  - testthat
-  - knitr
-  - rmarkdown
-
 after_success:
   - Rscript -e 'covr::coveralls()'
 
