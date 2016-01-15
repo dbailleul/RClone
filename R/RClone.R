@@ -2368,6 +2368,9 @@ autocorrelation_core <- function(data1, haploid = FALSE, coords = NULL, listMLL 
 if (length(listMLL) != 0 & genet){
 	if (!central_coords & !random_unit & !weighted){stop("You must choose a MLG genets methods for MLL.")}
 }
+if (genet){
+	if (!central_coords & !random_unit & !weighted){stop("You must choose a MLG genets methods.")}
+}
 
         ncol_all <- 2
         ncol_freq <- 3
