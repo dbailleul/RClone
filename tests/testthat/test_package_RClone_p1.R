@@ -217,7 +217,7 @@ test_that("the sample functions work", {
 	expect_that(sample_loci(posidonia, He = TRUE, haploid = TRUE), throws_error(""))
 	expect_that(sample_units(posidonia, He = TRUE, haploid = TRUE), throws_error(""))
 	
-	if (Sys.getenv("TRAVIS") == "TRUE"  {
+	if (Sys.getenv("TRAVIS") == "TRUE")  {
 		message("Unit tests too long on Travis")
 	} else {
 		message("Unit tests not too long on Travis")
