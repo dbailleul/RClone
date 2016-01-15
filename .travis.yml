@@ -9,8 +9,8 @@ r_github_packages:
 
 script :
 
- - travis_wait 100 R CMD build RClone --no-build-vignettes
- - travis_wait 100 R CMD check --no-build-vignettes --as-cran
+ - travis_wait 100 R CMD build --no-build-vignettes
+ - travis_wait 100 R CMD check "${PKG_FILE_NAME}" --no-build-vignettes --as-cran
     
 #r_build_args: "--no-build-vignettes"
 #r_check_args: "--no-build-vignettes --as-cran"
