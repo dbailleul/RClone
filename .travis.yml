@@ -10,12 +10,8 @@ r_github_packages:
 #env:
 #  - TRAVIS=TRUE
   
-#r_build_args: "--no-build-vignettes"
-#r_check_args: "--no-build-vignettes --as-cran"
-
-script:
-  - travis_wait 40 R CMD build --no-build-vignettes
-  - travis_wait 60 R CMD check --no-build-vignettes
+r_build_args: "--travis_wait-20 --no-build-vignettes"
+r_check_args: "--travis_wait-20 --no-build-vignettes --as-cran"
 
 # Report coverage rate to coveralls
 
