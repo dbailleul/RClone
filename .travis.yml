@@ -7,13 +7,12 @@ r_github_packages:
 
 # Build and check package
 
-script :
+script:
 
  - travis_wait 100 R CMD build --no-build-vignettes
- - travis_wait 100 R CMD check "${PKG_FILE_NAME}" --no-build-vignettes --as-cran
     
 #r_build_args: "--no-build-vignettes"
-#r_check_args: "--no-build-vignettes --as-cran"
+r_check_args: "--no-build-vignettes --as-cran"
 
 
 # Report coverage rate to coveralls
