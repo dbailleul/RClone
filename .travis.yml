@@ -5,6 +5,19 @@ sudo: required
 r_github_packages:
   - jimhester/covr
 
+# Build and check package
+
+script :
+
+ - travis_wait 100 R CMD build RClone --no-build-vignettes
+ - travis_wait 100 R CMD check --no-build-vignettes --as-cran
+    
+#r_build_args: "--no-build-vignettes"
+#r_check_args: "--no-build-vignettes --as-cran"
+
+
+# Report coverage rate to coveralls
+
 after_success:
   - Rscript -e 'covr::coveralls()'
 
@@ -12,6 +25,3 @@ notifications:
   email:
     on_success: change
     on_failure: always
-    
-r_build_args: "--no-build-vignettes"
-r_check_args: "--no-build-vignettes --as-cran"
