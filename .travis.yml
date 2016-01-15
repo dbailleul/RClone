@@ -7,11 +7,13 @@ r_github_packages:
 
 # Build and check package
 
-#env:
-#  - TRAVIS=TRUE
-  
-r_build_args: "--travis_wait-20 --no-build-vignettes"
-r_check_args: "--travis_wait-20 --no-build-vignettes --as-cran"
+env:
+  global:
+    - R_BUILD_ARGS="--no-build-vignettes --no-manual"
+    - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
+    
+script: 
+  - travis_wait ./travis-tool.sh run_tests
 
 # Report coverage rate to coveralls
 
