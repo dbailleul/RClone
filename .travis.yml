@@ -22,7 +22,7 @@ r_github_packages:
 #    - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
   
 script: 
-  - travis_wait 100 R CMD build --no-build-vignettes --no-manual
+  - travis_wait 100 R CMD install --build RClone --no-build-vignettes --no-manual
 #  - travis_wait 100 R CMD check RClone_0.1.tar.gz --no-build-vignettes --no-manual --as-cran
   - PKG_FILE_NAME=$(ls -1t *.tar.gz | head -n 1)
   - travis_wait 100 R CMD check "${PKG_FILE_NAME}" --no-build-vignettes --no-manual --as-cran
