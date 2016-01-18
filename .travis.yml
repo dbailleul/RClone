@@ -1,16 +1,17 @@
-language: c
+#language: c
+language: r
 
 sudo: required
 
-#This is a attempt to summon r-Travis to use travis_wait
+#This is a attempt to use travis_wait with native Travis
 
-before_install:
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - ./travis-tool.sh bootstrap
+#before_install:
+#  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+#  - chmod 755 ./travis-tool.sh
+#  - ./travis-tool.sh bootstrap
   
-install:
-  - ./travis-tool.sh install_deps
+#install:
+#  - ./travis-tool.sh install_deps
   
 r_github_packages:
   - jimhester/covr
@@ -21,15 +22,15 @@ r_github_packages:
 #    - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
   
 script: 
-  - travis_wait 40 R CMD build RClone --no-build-vignettes --no-manual
+  - travis_wait 40 R CMD build --no-build-vignettes --no-manual
   - travis_wait 100 R CMD check RClone_0.0.tar.gz --no-build-vignettes --no-manual --as-cran
 #  - travis_wait ./travis-tool.sh run_tests
 
 after_success:
   - Rscript -e 'covr::coveralls()'
 
-after_failure:
-  - ./travis-tool.sh dump_logs
+#after_failure:
+#  - ./travis-tool.sh dump_logs
 
 notifications:
   email:
