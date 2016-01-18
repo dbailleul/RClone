@@ -16,10 +16,10 @@ sudo: required
 r_github_packages:
   - jimhester/covr
   
-#env:
-#  global:
-#    - R_BUILD_ARGS="--no-build-vignettes --no-manual"
-#    - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
+env:
+  global:
+    - R_BUILD_ARGS="--no-build-vignettes --no-manual"
+    - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
   
 script: 
 #  - travis_wait 100 R CMD build RClone --no-build-vignettes --no-manual
