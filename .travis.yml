@@ -21,7 +21,7 @@ after_failure:
   - ./pkg-build.sh dump_logs
 
 after_success:
- - ./pkg-build.sh run_script -e 'covr::coveralls()'
+ - ./pkg-build.sh run_script -e 'library(covr);coveralls()'
 
 notifications:
   email:
@@ -33,4 +33,4 @@ env:
     - RVERSION=devel
       NOT_CRAN=false
       R_BUILD_ARGS="--no-build-vignettes --no-manual"
-      R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
+      R_CHECK_ARGS="--no-build-vignettes --no-manual"
