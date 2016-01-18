@@ -1,24 +1,33 @@
-language: r
+language: c
 
 sudo: required
 
+#This is a attempt to summon r-Travis to use travis_wait
+
+before_install:
+  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+  - ./travis-tool.sh bootstrap
+  
+install:
+  - ./travis-tool.sh install_deps
+  
 r_github_packages:
   - jimhester/covr
-
-# Build and check package
-
+  
 env:
   global:
     - R_BUILD_ARGS="--no-build-vignettes --no-manual"
     - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
-    
+  
 script: 
   - travis_wait ./travis-tool.sh run_tests
 
-# Report coverage rate to coveralls
-
 after_success:
   - Rscript -e 'covr::coveralls()'
+
+after_failure:
+  - ./travis-tool.sh dump_logs
 
 notifications:
   email:
