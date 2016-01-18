@@ -22,8 +22,8 @@ r_github_packages:
 #    - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
   
 script: 
-  - travis_wait R CMD build --no-build-vignettes --no-manual
-  - travis_wait R CMD check RClone_0.0.tar.gz --no-build-vignettes --no-manual --as-cran
+  - travis_wait 20 R CMD build --no-build-vignettes --no-manual
+  - travis_wait 20 R CMD check RClone_0.0.tar.gz --no-build-vignettes --no-manual --as-cran
 #  - travis_wait ./travis-tool.sh run_tests
 
 after_success:
