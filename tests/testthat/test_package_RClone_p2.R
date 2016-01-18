@@ -73,6 +73,11 @@ test_that("the pgen functions work", {
 	skip_on_cran()
 
 	data(posidonia)
+	data(zostera)
+	popvec <- zostera[,1]
+	coord_zostera <- zostera[,2:3]
+	zostera <- convert_GC(zostera[,4:ncol(zostera)], 3)
+	zostera <- zostera[1:29,]
 	
 	prev1 <- pgen_core(posidonia, freq_RR(posidonia))
 	prev1b <- pgen_core(posidonia, freq_RR(posidonia), haploid = TRUE)
@@ -93,6 +98,7 @@ test_that("the pgen functions work", {
 	res5 <- pgen_Fis(posidonia, genet = TRUE)
 	res6 <- pgen_Fis(posidonia, RR = TRUE)
 	res6b <- pgen_Fis(posidonia, vecpop = rep(1, 40))
+	res6c <- pgen_Fis(zostera)
 	
 	expect_that(res1, is_a("data.frame"))
 	expect_that(res2, is_a("data.frame"))
@@ -109,6 +115,7 @@ test_that("the pgen functions work", {
 	expect_that(res5, is_a("data.frame"))
 	expect_that(res6, is_a("data.frame"))
 	expect_that(res6b, is_a("list"))
+	expect_that(res6c, is_a("data.frame"))
 	expect_that(ncol(res4), equals(1))
 	expect_that(nrow(res5), equals(40))
 	expect_that(names(res6), equals("pgenFis"))
@@ -152,8 +159,8 @@ test_that("the psex functions work", {
 	res4 <- psex(posidonia, MLGsim = TRUE)
 	res5 <- psex(posidonia, MLGsim = TRUE, genet = TRUE)
 	res6 <- psex(posidonia, MLGsim = TRUE, RR = TRUE)
-	res6b <- psex(posidonia, MLGsim = TRUE, nbrepeat = 10)
-	res6c <- psex(posidonia, nbrepeat = 10, bar = TRUE)
+	res6b <- psex(posidonia, MLGsim = TRUE, nbrepeat = 50)
+	res6c <- psex(posidonia, nbrepeat = 50, bar = TRUE)
 	res6d <- psex(posidonia, vecpop = rep(1, 40))
 	
 	res7 <- psex_Fis(posidonia)
@@ -210,5 +217,7 @@ test_that("the psex functions work", {
 	expect_that(psex_Fis(unique(posidonia)), prints_text(""))
 	expect_that(psex(posidonia, nbrepeat = 1), prints_text("Warning: Simulated populations contain few repeated genotypes and p-value estimations may be incorrect."))
 	expect_that(psex_Fis(posidonia, nbrepeat = 0), throws_error(""))
+	expect_that(psex(posidonia, vecpop = 1), throws_error(""))
+	expect_that(psex_Fis(posidonia, vecpop = 1), throws_error(""))
 	
 })

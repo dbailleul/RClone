@@ -14,19 +14,34 @@ test_that("the GenClone function works", {
 	
 	res_tot <- GenClone(posidonia, coords = coord_posidonia)
 	res_wc <- GenClone(posidonia) #without coordinates
+	res_mll <- GenClone(posidonia, listMLL = MLG_list(posidonia)) #MLL
+	res_hp <- GenClone(posidonia, haploid = TRUE) #haploids
+	res_rp <- GenClone(posidonia, coords = coord_posidonia, nbrepeat = 10) #repeats
+	res_nc <- GenClone(unique(posidonia)) 
+	res_vp <- GenClone(posidonia, vecpop = rep(1, 40)) #multipop
 
 	expect_that(res_tot, is_a("data.frame"))
 	expect_that(res_wc, is_a("data.frame"))
+	expect_that(res_mll, is_a("data.frame"))
+	expect_that(res_hp, is_a("data.frame"))
+	expect_that(res_rp, is_a("data.frame"))
+	expect_that(res_nc, is_a("data.frame"))
+	expect_that(res_vp, is_a("data.frame"))
 	expect_that(ncol(res_tot),  equals(24))
  	expect_that(ncol(res_wc),  equals(24))
 	expect_that(sum(is.na(res_tot)),  equals(6))
 	expect_that(sum(is.na(res_wc)),  equals(10))
 	
-	res <- popsimgen(posidonia) #sub-function
+	expect_that(GenClone(posidonia, listMLL = 1),  throws_error(""))
+	expect_that(GenClone(posidonia, vecpop = 1),  throws_error(""))
 	
-	expect_that(res, is_a("data.frame"))
-	expect_that(nrow(res),  equals(40))
- 	expect_that(ncol(res),  equals(14))
+	res1 <- popsimgen(posidonia) #sub-function
+	res2 <- popsimgen(posidonia, haploid = TRUE)
+	
+	expect_that(res1, is_a("data.frame"))
+	expect_that(res2, is_a("data.frame"))
+	expect_that(nrow(res1),  equals(40))
+ 	expect_that(ncol(res1),  equals(14))
 
 })
 

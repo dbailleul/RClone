@@ -20,15 +20,21 @@ test_that("the genet_dist functions work", {
 		
 	res1 <- genet_dist(posidonia, export = TRUE)
 	res1b <- genet_dist(posidonia, vecpop = rep(1, 40), export = TRUE)
+	res1c <- genet_dist(posidonia, alpha2 = 2, export = TRUE)
+	res1d <- genet_dist(posidonia, vecpop = rep(1, 40), export = TRUE, alpha2 = 2)
 	res2 <- genet_dist(posidonia, manh = TRUE)
 	res3 <- genet_dist(posidonia, manh_w = TRUE)
 	res4 <- genet_dist(posidonia, graph = TRUE)
+	res4b <- genet_dist(posidonia, graph = TRUE, alpha1 = 0.05, breaking = 2)
 	
 	expect_that(res1[[1]], is_a("dist"))
 	expect_that(res1b[[1]], is_a("list"))
+	expect_that(res1c[[1]], is_a("dist"))
+	expect_that(res1d[[1]], is_a("list"))
 	expect_that(res2[[1]], is_a("dist"))
 	expect_that(res3[[1]], is_a("dist"))
 	expect_that(res4[[1]], is_a("dist"))
+	expect_that(res4b[[1]], is_a("dist"))
 	expect_equal(res1[[1]][236], 12)
 	expect_equal(res2[[1]][236], 58)
 	expect_equal(res3[[1]][236], 8.285714, tolerance = 0.00001)
@@ -37,11 +43,15 @@ test_that("the genet_dist functions work", {
 	res6 <- genet_dist(posidonia, alpha2 = 1)
 	res6b <- genet_dist(posidonia, vecpop = rep(1, 40), alpha1 = 0.05)
 	res6c <- genet_dist(posidonia, vecpop = rep(1, 40), alpha2 = 2)
+	res6d <- genet_dist(posidonia, alpha1 = 0)
+	res6e <- genet_dist(posidonia, alpha2 = 0)
 	
 	expect_that(res5, is_a("list"))
 	expect_that(res6, is_a("list"))
 	expect_that(res6b[[1]], is_a("list"))
 	expect_that(res6c[[1]], is_a("list"))
+	expect_that(res6d[[1]], is_a("dist"))
+	expect_that(res6e[[1]], is_a("dist"))
 	expect_equal(length(res5), 4)
 	expect_equal(length(res6), 4)
 	expect_equal(res5[[4]], 3)
@@ -74,9 +84,13 @@ test_that("the genet_dist functions work", {
 	
 	
 	res13 <- genet_dist(posidonia, alpha1 = 0.05)
+	res14 <- genet_dist(posidonia, alpha1 = 0)
+	res15 <- genet_dist(posidonia, alpha2 = 0)
 	
 	expect_equal(graph_genet_dist(res13[[1]], breaking = 2, tab_sort = res13[[3]], indic = 2, alpha1 = 0.05), NULL)
-	expect_equal(graph_genet_dist(res13[[1]], breaking = 2, tab_sort = res13[[3]], indic = 2, alpha2 = 2), NULL)
+	expect_equal(graph_genet_dist(res13[[1]], breaking = NULL, tab_sort = res13[[3]], indic = 2, alpha2 = 2), NULL)
+	expect_that(res14[[1]], is_a("dist"))
+	expect_that(res15[[1]], is_a("dist"))
 	
 })
 

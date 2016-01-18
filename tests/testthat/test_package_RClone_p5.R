@@ -21,7 +21,7 @@ test_that("the kinship functions work", {
 	res1 <- kinship_Loiselle(posidonia)
 	res2 <- kinship_Ritland(posidonia)
 	res3 <- kinship_Loiselle(posidonia, vecpop = rep(1, 40))
-	res4 <- kinship_Loiselle(posidonia, vecpop = rep(1, 40))
+	res4 <- kinship_Ritland(posidonia, vecpop = rep(1, 40))
 	
 	expect_that(res1, is_a("dist"))
 	expect_that(res2, is_a("dist"))
@@ -65,6 +65,7 @@ test_that("the autocorrelation function works", {
 	res6 <- autocorrelation(posidonia, Loiselle = TRUE, coords = coord_posidonia, nbrepeat = 100)
 	res7 <- graph_autocorrelation(res6$Class_distance_results, res6$Class_kinship_results)
 	res8 <- autocorrelation(posidonia, Ritland = TRUE, coords = coord_posidonia, nbrepeat = 100, vecpop = rep(1, 40))
+	res9 <- autocorrelation(posidonia, Loiselle = TRUE, coords = coord_posidonia, nbrepeat = 100, listMLL = MLG_list(posidonia), genet = TRUE, random_unit = TRUE)
 	
 	expect_that(res1, is_a("list"))
 	expect_that(res2, is_a("list"))
@@ -73,6 +74,7 @@ test_that("the autocorrelation function works", {
 	expect_that(res5, is_a("list"))
 	expect_that(res6, is_a("list"))
 	expect_that(res8, is_a("list"))
+	expect_that(res9, is_a("list"))
 	expect_equal(length(res2), 5)
 	expect_equal(length(res4), 7)
 	expect_equal(length(res7), 0)
@@ -90,7 +92,7 @@ test_that("the autocorrelation function works", {
 	
 	expect_that(autocorrelation(posidonia, coords = coord_posidonia), throws_error(""))
 	expect_that(autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE, genet = TRUE), throws_error(""))
-	expect_that(autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE, listMLL = MGL_list(posidonia), genet = TRUE), throws_error(""))
+	expect_that(autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE, listMLL = MLG_list(posidonia), genet = TRUE), throws_error(""))
 	expect_that(autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE, listMLL = 1), throws_error(""))
 	expect_that(autocorrelation(posidonia, coords = coord_posidonia, Loiselle = TRUE, vecpop = 1), throws_error(""))
 		
@@ -214,15 +216,17 @@ test_that("the edge effect function works", {
 	
 	res1 <- edge_effect(posidonia, coords = coord_posidonia, center = c(40,10))
 	res2 <- edge_effect(posidonia, coords = coord_posidonia, center = c(40,10), vecpop = rep(1, 40))
+	res3 <- edge_effect(posidonia, coords = coord_posidonia, center = c(40,10), listMLL = MLG_list(posidonia), bar = TRUE)
 	
 	expect_that(res1, is_a("list"))
 	expect_that(res2, is_a("list"))
+	expect_that(res3, is_a("list"))
 	expect_that(res1[[1]], is_a("data.frame"))
 	expect_equal(nrow(res1[[1]]), 1)
 	expect_equal(ncol(res1[[1]]), 3)
 	expect_equal(round(res1[[1]][1,1], digits = 5)[[1]], round(0.07786722, digits = 5), tolerance = 0.00001)
 	
 	expect_that(edge_effect(posidonia, coord_posidonia, center = c(40,10), vecpop = 1), throws_error(""))
-	expect_that(edge_effect(posidonia, coord_posidonia, center = c(40,10), MLL = 1), throws_error(""))
+	expect_that(edge_effect(posidonia, coord_posidonia, center = c(40,10), listMLL = 1), throws_error(""))
 	
 })

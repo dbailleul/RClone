@@ -11,8 +11,8 @@ convert_GC <- function(data1, num, ele){
 	}
 	mat_all <- as.data.frame(t(apply(res, 2, function(x) rbind(x))), stringsAsFactors = FALSE)
 
-	if (ncol(mat_all) != ncol(data1)*2) {stop("Error: Entry data format might be incorrect")}
-	if (nrow(mat_all) != nrow(data1)) {stop("Error: Entry data format might be incorrect")}
+	#if (ncol(mat_all) != ncol(data1)*2) {stop("Error: Entry data format might be incorrect")} #error impossible
+	#if (nrow(mat_all) != nrow(data1)) {stop("Error: Entry data format might be incorrect")} #error impossible
 
 	names(mat_all) <- unlist(lapply(names(data1), function(x) paste(x, 1:2, sep = "_")))
 mat_all
