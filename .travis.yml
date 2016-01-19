@@ -1,6 +1,6 @@
 #How to use travis_wait with rTravis, zoon version:
 
-language: c, r
+language: c
 
 sudo: required
 
