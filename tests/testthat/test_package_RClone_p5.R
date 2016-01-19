@@ -58,8 +58,7 @@ test_that("the autocorrelation function works", {
 	
 	res1 <- autocorrelation(posidonia, Loiselle = TRUE, coords = coord_posidonia, vecdist = c(0,10,15,20,30,50,70,76.0411073), graph = TRUE)
 	res2 <- autocorrelation(posidonia, Loiselle = TRUE, coords = coord_posidonia, genet = TRUE, central_coords = TRUE, d = 7, class1 = TRUE)
-	res3 <- autocorrelation(posidonia, Loiselle = TRUE, coords = coord_posidonia, genet = TRUE, weighted = TRUE, d = 7, class2 = TRUE)
-	#res3 <- autocorrelation(posidonia, Loiselle = TRUE, coords = coord_posidonia, genet = TRUE, weighted = TRUE, d = 7, class2 = TRUE, export = TRUE)
+	res3 <- autocorrelation(posidonia, Loiselle = TRUE, coords = coord_posidonia, genet = TRUE, weighted = TRUE, d = 7, class2 = TRUE, export = TRUE)
 	res4 <- autocorrelation(posidonia, Ritland = TRUE, coords = coord_posidonia, nbrepeat = 100)
 	res5 <- autocorrelation(posidonia, Ritland = TRUE, coords = coord_posidonia, genet = TRUE, random_unit = TRUE, d = 10, class1 = TRUE)
 	res6 <- autocorrelation(posidonia, Loiselle = TRUE, coords = coord_posidonia, nbrepeat = 100)

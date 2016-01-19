@@ -12,7 +12,7 @@ test_that("the GenClone function works", {
 	expect_that(prev, is_a("data.frame"))
 	expect_that(ncol(prev),  equals(24))
 	
-	res_tot <- GenClone(posidonia, coords = coord_posidonia)
+	res_tot <- GenClone(posidonia, coords = coord_posidonia, bar = TRUE)
 	res_wc <- GenClone(posidonia) #without coordinates
 	res_mll <- GenClone(posidonia, listMLL = MLG_list(posidonia)) #MLL
 	res_hp <- GenClone(posidonia, haploid = TRUE) #haploids
