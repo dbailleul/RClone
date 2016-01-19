@@ -1,47 +1,37 @@
-#----------------------------------------------------------------
-# Travis-CI configuration for R packages
-#
-# REFERENCES:
-# * Travis CI: https://travis-ci.org/
-# * r-builder: https://github.com/metacran/r-builder
-# * covr: https://github.com/jimhester/covr
-# * Coveralls: https://coveralls.io/
-#
-# Validate your .travis.yml file at http://lint.travis-ci.org/
-#----------------------------------------------------------------
 language: c
 
-env:
-  global:
-    - RENV="./pkg-build.sh"    # r-builder
-    - R_BUILD_ARGS="--no-build-vignettes --no-manual"
-    - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
-
+sudo: required
 
 before_install:
-  - echo RENV=$RENV
-  - curl -OL https://raw.githubusercontent.com/HenrikBengtsson/r-builder/master/pkg-build.sh;
-  - chmod 755 $RENV
-  - $RENV bootstrap
+  - curl -OL https://raw.githubusercontent.com/metacran/r-builder/master/pkg-build.sh
+  - chmod 755 pkg-build.sh
+  - ./pkg-build.sh bootstrap
 
 install:
- - $RENV install_r R.methodsS3
+  - sudo apt-get install -y libv8-dev curl libcurl4-openssl-dev
+  - ./pkg-build.sh install_deps
+  - ./pkg-build.sh install_github jimhester/covr
 
 script:
-  - travis_wait $RENV run_build
-  - travis_wait $RENV run_check
+ - travis_wait ./pkg-build.sh run_tests
 
 after_success:
-  - $RENV dump_logs_by_extension out
-  - $RENV install_devtools
-  - $RENV install_github HenrikBengtsson/covr
+  - ./pkg-build.sh dump_logs_by_extension out
+  - ./pkg-build.sh install_devtools
+  - ./pkg-build.sh install_github HenrikBengtsson/covr
   - curl -OL https://raw.githubusercontent.com/HenrikBengtsson/covr-utils/master/covr-utils.R
-  - $RENV run_script .coveralls.R
+  - ./pkg-build.sh run_script .coveralls.R
 
 after_failure:
-  - $RENV dump_logs
+ - ./pkg-build.sh dump_logs
 
 notifications:
   email:
     on_success: change
     on_failure: change
+
+env:
+  global:
+      - RVERSION=devel COVERAGE=true
+      - R_BUILD_ARGS="--no-build-vignettes --no-manual"
+      - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
