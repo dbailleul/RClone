@@ -20,8 +20,8 @@ script:
 after_failure:
   - ./pkg-build.sh dump_logs
 
-after_success:
-  - Rscript -e 'covr::coveralls()'
+after_success: coveralls
+#  - Rscript -e 'covr::coveralls()'
 # - ./pkg-build.sh run_script -e 'library(covr);codecov()'
 
 notifications:
@@ -30,8 +30,6 @@ notifications:
     on_failure: change
 
 env:
-  matrix:
-    - RVERSION=devel
-      NOT_CRAN=false
-      R_BUILD_ARGS="--no-build-vignettes --no-manual"
-      R_CHECK_ARGS="--no-build-vignettes --no-manual"
+  global:
+      - R_BUILD_ARGS="--no-build-vignettes --no-manual"
+      - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
