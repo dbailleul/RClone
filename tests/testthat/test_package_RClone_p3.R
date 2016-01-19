@@ -65,13 +65,13 @@ test_that("the genet_dist functions work", {
 	expect_that(genet_dist(posidonia, vecpop = rep(1, 40), alpha2 = c(2, 2)), throws_error(""))
 	expect_that(genet_dist(posidonia, vecpop = rep(1, 40), alpha1 = c(0.05, 0.05)), throws_error(""))
 	
-	res7 <- genet_dist_sim(posidonia, nbrepeat = 10, export = TRUE) #Travis does not allow export option
+	res7 <- genet_dist_sim(posidonia, nbrepeat = 10, export = TRUE)
 	res7 <- genet_dist_sim(posidonia, nbrepeat = 10)
 	res8 <- genet_dist_sim(posidonia, manh = TRUE, nbrepeat = 10)
 	res9 <- genet_dist_sim(posidonia, manh_w = TRUE, nbrepeat = 10)
 	res10 <- genet_dist_sim(posidonia, nbrepeat = 10, haploid = TRUE)
 	res11 <- genet_dist_sim(posidonia, nbrepeat = 10, genet = TRUE)
-	res12 <- genet_dist_sim(posidonia, nbrepeat = 10, vecpop = rep(1, 40), export = TRUE) #Travis does not allow export option
+	res12 <- genet_dist_sim(posidonia, nbrepeat = 10, vecpop = rep(1, 40), export = TRUE)
 	res12 <- genet_dist_sim(posidonia, nbrepeat = 10, vecpop = rep(1, 40))
 	
 	expect_that(res7[[1]], is_a("dist"))
