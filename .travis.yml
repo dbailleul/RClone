@@ -1,3 +1,5 @@
+#How to use travis_wait with rTravis, webchem version:
+
 language: c
 
 sudo: required
@@ -13,17 +15,13 @@ install:
   - ./pkg-build.sh install_github jimhester/covr
 
 script:
- - travis_wait ./pkg-build.sh run_tests
-
-after_success:
-  - ./pkg-build.sh dump_logs_by_extension out
-  - ./pkg-build.sh install_devtools
-  - ./pkg-build.sh install_github HenrikBengtsson/covr
-  - curl -OL https://raw.githubusercontent.com/HenrikBengtsson/covr-utils/master/covr-utils.R
-  - ./pkg-build.sh run_script .coveralls.R
+  - travis_wait ./pkg-build.sh run_tests
 
 after_failure:
- - ./pkg-build.sh dump_logs
+  - ./pkg-build.sh dump_logs
+
+after_success:
+  - if [[ ! -z "$COVERAGE" ]];then ./pkg-build.sh run_script -e 'covr::codecov(quiet = FALSE)'; fi
 
 notifications:
   email:
