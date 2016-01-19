@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/dbailleul/RClone.svg?branch=master)](https://travis-ci.org/dbailleul/RClone)
-[![Coverage Status](https://coveralls.io/repos/dbailleul/RClone/badge.svg?branch=master&service=github)](https://coveralls.io/github/dbailleul/RClone?branch=master)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/RClone)](https://cran.r-project.org/web/packages/RClone)
+[![Coverage Status](https://codecov.io/github/dbailleul/RClone/coverage.svg?branch=master)](https://codecov.io/github/dbailleul/RClone?branch=master)
+[![CRAN Status](http://www.r-pkg.org/badges/version/RClone)](https://cran.r-project.org/web/packages/RClone)
 
 
 # RClone v1.0.1
