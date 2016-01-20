@@ -193,6 +193,8 @@ test_that("the sample functions work", {
 	res6 <- sample_loci(posidonia, vecpop = rep(1,40))
 	res7 <- sample_units(posidonia, bar = TRUE, graph = TRUE, export = TRUE, nbrepeat = 10)
 	res8 <- sample_units(posidonia, vecpop = rep(1,40))
+	res9 <- sample_loci(posidonia, vecpop = rep(1,40), export = TRUE)
+	res10 <- sample_units(posidonia, vecpop = rep(1,40), export = TRUE)
 		
 	expect_that(res1, is_a("list"))
 	expect_that(res2, is_a("list"))
@@ -202,6 +204,8 @@ test_that("the sample functions work", {
 	expect_that(res6, is_a("list"))
 	expect_that(res7, is_a("list"))
 	expect_that(res8, is_a("list"))
+	expect_that(res9, is_a("list"))
+	expect_that(res10, is_a("list"))
 	expect_that(length(res1), equals(4))
 	expect_that(length(res2), equals(5))
 	expect_that(length(res3), equals(length(res1)))

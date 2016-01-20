@@ -63,7 +63,7 @@ test_that("the autocorrelation function works", {
 	res5 <- autocorrelation(posidonia, Ritland = TRUE, coords = coord_posidonia, genet = TRUE, random_unit = TRUE, d = 10, class1 = TRUE)
 	res6 <- autocorrelation(posidonia, Loiselle = TRUE, coords = coord_posidonia, nbrepeat = 100)
 	res7 <- graph_autocorrelation(res6$Class_distance_results, res6$Class_kinship_results)
-	res8 <- autocorrelation(posidonia, Ritland = TRUE, coords = coord_posidonia, nbrepeat = 100, vecpop = rep(1, 40))
+	res8 <- autocorrelation(posidonia, Ritland = TRUE, coords = coord_posidonia, nbrepeat = 100, vecpop = rep(1, 40), export = TRUE)
 	res9 <- autocorrelation(posidonia, Loiselle = TRUE, coords = coord_posidonia, nbrepeat = 100, listMLL = MLG_list(posidonia), genet = TRUE, random_unit = TRUE)
 	
 	expect_that(res1, is_a("list"))

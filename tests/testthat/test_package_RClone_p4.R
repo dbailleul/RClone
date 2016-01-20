@@ -45,7 +45,7 @@ test_that("the Pareto_index function works", {
 	res2 <- Pareto_index(posidonia, full = TRUE)
 	res3 <- Pareto_index(posidonia, listMLL = MLG_list(posidonia))
 	res4 <- Pareto_index(posidonia, vecpop = rep(1, 40), export = TRUE)
-	res5 <- Pareto_index(posidonia, graph = TRUE, legend = 2)
+	res5 <- Pareto_index(posidonia, graph = TRUE, legends = 2)
 	
 	expect_that(res1, is_a("list"))
 	expect_that(res2, is_a("list"))

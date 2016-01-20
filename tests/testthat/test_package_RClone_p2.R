@@ -17,10 +17,12 @@ test_that("the freq_RR functions work", {
 	res3 <- freq_RR(posidonia, RR = TRUE)
 	res4 <- freq_finder(posidonia, 12, 3) #hidden function
 	res5 <- freq_finder(posidonia, 12, 4, genet = TRUE, haploid = TRUE) #same
+	res6 <- freq_RR(posidonia, RR = TRUE, haploid = TRUE)
 	
 	expect_that(res1, is_a("data.frame"))
 	expect_that(res2, is_a("data.frame"))
 	expect_that(res3, is_a("data.frame"))
+	expect_that(res6, is_a("data.frame"))
 	expect_that(ncol(res1), equals(3))
 	expect_that(nrow(res2), equals(29))
 	expect_that(names(res3)[2], equals("allele"))
@@ -63,7 +65,7 @@ test_that("the Fis function works", {
 	expect_equal(res3[[2]][3,4], -0.09217877, tolerance  = 0.000001)
 	
 	expect_that(Fis(posidonia, RR = TRUE, genet = TRUE), throws_error(""))
-	expect_that(Fis(posidonia, vecpop = 1), throws_error(""))
+	expect_that(Fis(posidonia, vecpop = 1), throws_error("vecpop length is not equal to the number of rows of your dataset."))
 
 })
 
@@ -125,8 +127,8 @@ test_that("the pgen functions work", {
 
 	expect_that(pgen(posidonia, RR = TRUE, genet = TRUE), throws_error(""))
 	expect_that(pgen_Fis(posidonia, RR = TRUE, genet = TRUE), throws_error(""))
-	expect_that(pgen(posidonia, vecpop = 1), throws_error(""))
-	expect_that(pgen_Fis(posidonia, vecpop = 1), throws_error(""))
+	expect_that(pgen(posidonia, vecpop = 1), throws_error("vecpop length is not equal to the number of rows of your dataset."))
+	expect_that(pgen_Fis(posidonia, vecpop = 1), throws_error("vecpop length is not equal to the number of rows of your dataset."))
 	
 	data(zostera)
 	popvec <- zostera[,1]
@@ -217,7 +219,7 @@ test_that("the psex functions work", {
 	expect_that(psex_Fis(unique(posidonia)), prints_text(""))
 	expect_that(psex(posidonia, nbrepeat = 1), prints_text("Warning: Simulated populations contain few repeated genotypes and p-value estimations may be incorrect."))
 	expect_that(psex_Fis(posidonia, nbrepeat = 0), throws_error(""))
-	expect_that(psex(posidonia, vecpop = 1), throws_error(""))
-	expect_that(psex_Fis(posidonia, vecpop = 1), throws_error(""))
+	expect_that(psex(posidonia, vecpop = 1), throws_error("vecpop length is not equal to the number of rows of your dataset."))
+	expect_that(psex_Fis(posidonia, vecpop = 1), throws_error("vecpop length is not equal to the number of rows of your dataset."))
 	
 })

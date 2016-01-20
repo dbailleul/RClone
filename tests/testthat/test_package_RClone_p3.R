@@ -26,6 +26,7 @@ test_that("the genet_dist functions work", {
 	res3 <- genet_dist(posidonia, manh_w = TRUE)
 	res4 <- genet_dist(posidonia, graph = TRUE)
 	res4b <- genet_dist(posidonia, graph = TRUE, alpha1 = 0.05, breaking = 2)
+	res4c <- genet_dist(posidonia, graph = TRUE, alpha2 = 2)
 	
 	expect_that(res1[[1]], is_a("dist"))
 	expect_that(res1b[[1]], is_a("list"))
@@ -35,6 +36,7 @@ test_that("the genet_dist functions work", {
 	expect_that(res3[[1]], is_a("dist"))
 	expect_that(res4[[1]], is_a("dist"))
 	expect_that(res4b[[1]], is_a("dist"))
+	expect_that(res4c[[1]], is_a("dist"))
 	expect_equal(res1[[1]][236], 12)
 	expect_equal(res2[[1]][236], 58)
 	expect_equal(res3[[1]][236], 8.285714, tolerance = 0.00001)
