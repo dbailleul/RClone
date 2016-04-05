@@ -48,7 +48,7 @@ The design was inspired by GenClone program described in Arnaud-Haond & Belkhir 
 Maintainer: Diane Bailleul <diane.bailleul.pro@gmail.com>
 
 
-Author: Sophie Arnaud-Haond <sohie.arnaud@ifremer.fr>
+Author: Sophie Arnaud-Haond <sophie.arnaud@ifremer.fr>
 }
 
 \note{

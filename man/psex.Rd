@@ -126,11 +126,15 @@ The design was inspired by GenClone program described in Arnaud-Haond & Belkhir 
 Maintainer: Diane Bailleul <diane.bailleul.pro@gmail.com>
 
 
-Author: Sophie Arnaud-Haond <sohie.arnaud@ifremer.fr>
+Author: Sophie Arnaud-Haond <sophie.arnaud@ifremer.fr>
 }
 
 \section{Warning}{If \command{sim_psex} are less than 100, a warning message pops, as 
-clones are not necessarily generated each simulation.}
+clones are not necessarily generated each simulation.
+
+
+If no repeated genotype is generated during simulations, a warning message pops as well.
+}
 
 \seealso{
 \code{\link{Fis}}, \code{\link{freq_RR}}, \code{\link{pgen}} and \code{\link{pgen_Fis}}

@@ -1,3 +1,15 @@
+# RClone v1.0.2 (04/15/2016)
+
+## Minor fixes
+
+- *psex* and *psex_Fis* functions are corrected (thanks to Katia C.) ;
+Found a bug with pvalues generation with more than 9 loci: *sample* systematically re-orders loci then prevents *pgen* computation.
+Found a bug with warning message "No clone was found during Simulations" that stops the function.
+*psex.rd* file updated.
+
+- typo correction on author email.
+
+
 # RClone v1.0.1 (01/11/2016)
 
 ## Minor changes
