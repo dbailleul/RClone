@@ -217,8 +217,8 @@ test_that("the psex functions work", {
 	expect_that(psex_Fis(posidonia, genet = TRUE, RR = TRUE), throws_error(""))
 	expect_that(psex(unique(posidonia)), prints_text(""))
 	expect_that(psex_Fis(unique(posidonia)), prints_text(""))
-	expect_that(psex(posidonia, nbrepeat = 1), prints_text("Warning: Simulated populations contain few repeated genotypes and p-value estimations may be incorrect."))
-	expect_that(psex_Fis(posidonia, nbrepeat = 0), throws_error(""))
+	expect_that(psex(posidonia, nbrepeat = 1), prints_text(""))
+	expect_that(psex_Fis(posidonia, nbrepeat = 0), prints_text(""))
 	expect_that(psex(posidonia, vecpop = 1), throws_error("vecpop length is not equal to the number of rows of your dataset."))
 	expect_that(psex_Fis(posidonia, vecpop = 1), throws_error("vecpop length is not equal to the number of rows of your dataset."))
 	
