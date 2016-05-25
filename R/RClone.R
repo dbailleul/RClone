@@ -3604,5 +3604,6 @@ GenClone <- function(data1, haploid = FALSE, coords = NULL, vecpop = NULL, listM
 		datafreq <- freq_RR(data1, haploid, vecpop, genet = FALSE, RR = FALSE)
 		res <- GenClone_core(data1, datafreq, haploid, coords, listMLL, nbrepeat, bar)
 	}
+	res <- data.frame(lapply(res, as.character), stringsAsFactors=FALSE)
 	res
 }
