@@ -29,14 +29,15 @@ Some of these analysis can be applied to dataset without clones.
 
 ## Installation
 
-Get the released version from CRAN:
-
-    install.packages("RClone")
-
-Or the development version from github:
+Get the lastest development version from github:
 
     #install.packages("devtools")
     devtools::install_github("dbailleul/RClone")
+    library(RClone)
+
+or the released version from CRAN:
+
+    install.packages("RClone")
 
 And then, generate manuals:
 
