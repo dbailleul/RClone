@@ -1,14 +1,14 @@
 Package: RClone
-Version: 1.0.1
+Version: 1.0.2
 Date: 2015-11-24
 Title: Partially Clonal Populations Analysis
 Authors@R: c(
-    person("Sophie", "Arnaud-Haond", email = "sohie.arnaud@ifremer.fr", role = "aut"),
+    person("Sophie", "Arnaud-Haond", email = "sophie.arnaud@ifremer.fr", role = "aut"),
     person("Diane", "Bailleul", email = "diane.bailleul.pro@gmail.com", role = c("aut", "cre")),
-    person("CLONIX", role = "ctb"))
+    person("Solenn", "Stoeckel", role = "ctb"))
 Author: Sophie Arnaud-Haond [aut],
 	Diane Bailleul [aut, cre],
-	CLONIX [ctb]
+	Solenn Stoeckel [ctb]
 Maintainer: Diane Bailleul <diane.bailleul.pro@gmail.com>
 Description: R version of 'GenClone' (a computer program to analyse genotypic data, test for clonality and describe spatial clonal organization, Arnaud-Haond & Belkhir 2007, <http://wwz.ifremer.fr/clonix/content/download/68205/903914/file/GenClone2.0.setup.zip>), this package allows clone handling as 'GenClone' does, plus the possibility to work with several populations, MultiLocus Lineages (MLL) custom definition and use, and p-value calculation for psex statistic (probability of originating from distinct sexual events) and psex_Fis statistic (taking account of Hardy-Weinberg equilibrium departure) as 'MLGsim'/'MLGsim2' (a program for detecting clones using a simulation approach, Stenberg et al. 2003).
 License: GPL (>=2.0)
