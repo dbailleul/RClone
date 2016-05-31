@@ -35,16 +35,15 @@ and Adegenet and export \command{RClone} data for Genetix and Arlequin (for exam
 
 
 \author{
-The R implementation of \command{RClone} was written by Diane Bailleul working for Sophie Arnaud-Haond at IFREMER.
+Creator/Author: Diane Bailleul <diane.bailleul.pro@gmail.com> \cr
+Author: Sophie Arnaud-Haond <sophie.arnaud@ifremer.fr> \cr
+Contributor: Solenn Stoeckel
+
+
+The R implementation of \command{RClone} was written by Diane Bailleul.
 
 
 The design was inspired by GenClone program described in Arnaud-Haond & Belkhir (2007).
-
-
-Maintainer: Diane Bailleul <diane.bailleul.pro@gmail.com>
-
-
-Author: Sophie Arnaud-Haond <sophie.arnaud@ifremer.fr>
 }
 
 \references{
