@@ -1,3 +1,9 @@
+# RClone v1.0.2 (05/31/2016)
+
+## Minor fixes
+
+- units tests on GenClone function are suspended because they make crash Travis due to too long computing time.
+
 # RClone v1.0.2 (04/15/2016)
 
 ## Minor fixes
