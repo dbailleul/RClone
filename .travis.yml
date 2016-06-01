@@ -6,7 +6,8 @@ sudo: required
 
 warnings_are_errors: false
 
-script:  - travis_wait 30 ./travis-tool.sh run_tests
+script:
+  - travis_wait 30 ./travis-tool.sh run_tests
   
 r_github_packages:
   - jimhester/covr
