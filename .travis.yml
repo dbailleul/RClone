@@ -1,13 +1,10 @@
-#Test with Randy Zwitch solution and travis_wait
+#Test with Randy Zwitch solution
 
 language: r
 
 sudo: required
 
 warnings_are_errors: false
-
-script:
-  - travis_wait 30 ./travis-tool.sh run_tests
   
 r_github_packages:
   - jimhester/covr
