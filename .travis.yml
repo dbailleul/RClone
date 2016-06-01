@@ -12,6 +12,8 @@ r_github_packages:
 r_build_args: "--no-build-vignettes --no-manual"
 r_check_args: "--no-build-vignettes --no-manual --as-cran"
 
+install: travis_wait 30 ./travis-tool.sh run_tests
+
 after_success:
   - R CMD INSTALL $PKG_TARBALL
   - source shim_package.sh
