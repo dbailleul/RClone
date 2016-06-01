@@ -6,13 +6,13 @@ sudo: required
 
 warnings_are_errors: false
 
-#  - travis_wait 30 ./travis-tool.sh run_tests
+script:  - travis_wait 30 ./travis-tool.sh run_tests
   
 r_github_packages:
   - jimhester/covr
   
 r_build_args: "--no-build-vignettes --no-manual"
-r_check_args: "--no-build-vignettes --no-manual"
+r_check_args: "--no-build-vignettes --no-manual --as-cran"
 
 after_success:
   - R CMD INSTALL $PKG_TARBALL
@@ -22,4 +22,4 @@ after_success:
 notifications:
   email:
     on_success: change
-    on_failure: always
+    on_failure: change
