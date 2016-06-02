@@ -19,7 +19,6 @@ test_that("the convert_GC function works", {
 	expect_that(nrow(res2), equals(nrow(test)))	
 	expect_that(convert_GC(zostera, num = 3), not(throws_error("Error: Entry data format might be incorrect")))
 	
-	print("the convert_GC function works")
 
 })
 
@@ -44,7 +43,6 @@ test_that("the transcript_GC function works", {
 	expect_that(transcript_GC("infile.csv", ";", 2, 6, 3), throws_error("Error: Number of loci different from indicated"))
 	expect_that(transcript_GC("infile.csv", ";", 2, 7, 3), not(throws_error("Error: Number of loci names different")))
 	
-	print("the transcript_GC function works")
 	
 })
 
@@ -58,7 +56,6 @@ test_that("the sort_all function works", {
 	expect_that(res, is_a("data.frame"))
 	expect_that(ncol(res), equals(ncol(posidonia)))
 	
-	print("the sort_all function works")
 		
 })
 
@@ -87,7 +84,6 @@ test_that("the export functions are OK", {
 	expect_that(ncol(res3), equals(1))
 	expect_that(nrow(res3), equals(96))	
 	
-	print("the export functions are OK")
 		
 })
 
@@ -104,7 +100,6 @@ test_that("the print functions work", {
 	expect_that(list_all_obj(posidonia, vecpop = 1), throws_error(""))
 	expect_that(list_all_obj(posidonia, vecpop = rep(1,40)), prints_text("locus_3/Po5-10_1"))
 	
-	print("the print functions work")
 		
 })
 
@@ -143,7 +138,6 @@ test_that("the list_all_tab functions work", {
 	expect_that(list_all_tab(posidonia, vecpop = 1), throws_error(""))
 	expect_that(list_all_tab2(posidonia, vecpop = 1), throws_error(""))
 	
-	print("the list_all_tab functions work")
 	
 })
 
@@ -176,7 +170,6 @@ test_that("the MLG functions work", {
 	expect_that(MLG_list(posidonia, vecpop = 1), throws_error(""))
 	expect_that(MLG_tab(posidonia, vecpop = 1), throws_error(""))
 	
-	print("the MLG functions work")
 	
 })
 
@@ -235,6 +228,5 @@ test_that("the sample functions work", {
 	expect_that(sample_loci(posidonia, He = TRUE, haploid = TRUE), throws_error(""))
 	expect_that(sample_units(posidonia, He = TRUE, haploid = TRUE), throws_error(""))
 	
-	print("the sample functions work")
 		
 })
