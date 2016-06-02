@@ -4,13 +4,13 @@ test_that("the GenClone function works", {
 
 	skip_on_cran()
 
-	data(posidonia)
-	data(coord_posidonia)
+	#data(posidonia)
+	#data(coord_posidonia)
 	
-	prev <- GenClone_core(posidonia, freq_RR(posidonia))
+	#prev <- GenClone_core(posidonia, freq_RR(posidonia))
 	
-	expect_that(prev, is_a("data.frame"))
-	expect_that(ncol(prev),  equals(24))
+	#expect_that(prev, is_a("data.frame"))
+	#expect_that(ncol(prev),  equals(24))
 	
 	#res_tot <- GenClone(posidonia, coords = coord_posidonia, bar = TRUE) #Too long
 	#res_wc <- GenClone(posidonia) #without coordinates
@@ -37,13 +37,13 @@ test_that("the GenClone function works", {
 	#expect_that(GenClone(posidonia, listMLL = 1),  throws_error(""))
 	#expect_that(GenClone(posidonia, vecpop = 1),  throws_error(""))
 	
-	res1 <- popsimgen(posidonia) #sub-function
-	res2 <- popsimgen(posidonia, haploid = TRUE)
+	#res1 <- popsimgen(posidonia) #sub-function
+	#res2 <- popsimgen(posidonia, haploid = TRUE)
 	
-	expect_that(res1, is_a("data.frame"))
-	expect_that(res2, is_a("data.frame"))
-	expect_that(nrow(res1),  equals(40))
- 	expect_that(ncol(res1),  equals(14))
+	#expect_that(res1, is_a("data.frame"))
+	#expect_that(res2, is_a("data.frame"))
+	#expect_that(nrow(res1),  equals(40))
+ 	#expect_that(ncol(res1),  equals(14))
 
 })
 
