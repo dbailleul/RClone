@@ -1,4 +1,4 @@
-# RClone v1.0.2 (05/31/2016)
+# RClone v1.0.2 (06/03/2016)
 
 ## Minor fixes
 
