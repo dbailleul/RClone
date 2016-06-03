@@ -2,7 +2,11 @@
 
 ## Minor fixes
 
-- units tests on GenClone function are suspended because they make crash Travis due to too long computing time.
+- GenClone outputs are corrected (before: table of lists, now : table of vectors) ;
+
+- units tests on GenClone function (p6 and p7) are temporary suspended because they make Travis crash due to too long computing time ;
+
+- authorship correction.
 
 # RClone v1.0.2 (04/15/2016)
 
