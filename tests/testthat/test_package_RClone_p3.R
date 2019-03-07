@@ -108,8 +108,8 @@ test_that("the MLL functions work", {
 	
 	expect_that(prev1, is_a("list"))
 	expect_that(prev2, is_a("list"))
-	expect_equal(length(prev1), 23)
-	expect_equal(length(prev2), 13)
+	expect_equal(length(prev1), 22)
+	expect_equal(length(prev2), 12)
 	
 	res1 <- MLL_generator(posidonia, alpha1 = 0.05)
 	res2 <- MLL_generator(posidonia, alpha2 = 1)
@@ -122,7 +122,7 @@ test_that("the MLL functions work", {
 	expect_that(res3, is_a("list"))
 	expect_that(res4, is_a("list"))
 	expect_that(res5, is_a("list"))
-	expect_equal(length(res1), 13)
+	expect_equal(length(res1), 12)
 	expect_equal(length(res2), 22)
 	
 	expect_that(MLL_generator(posidonia, vecpop = 1), throws_error(""))
