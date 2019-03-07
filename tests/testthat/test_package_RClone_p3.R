@@ -94,6 +94,9 @@ test_that("the genet_dist functions work", {
 	expect_that(res14[[1]], is_a("dist"))
 	expect_that(res15[[1]], is_a("dist"))
 	
+	res16 <- genet_dist(posidonia[8:9,])
+	expect_equal(res16[[1]][1], 5) #unit test for setdiff_mod
+	
 })
 
 
