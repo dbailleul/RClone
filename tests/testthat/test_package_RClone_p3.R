@@ -123,7 +123,7 @@ test_that("the MLL functions work", {
 	expect_that(res4, is_a("list"))
 	expect_that(res5, is_a("list"))
 	expect_equal(length(res1), 13)
-	expect_equal(length(res2), 23)
+	expect_equal(length(res2), 22)
 	
 	expect_that(MLL_generator(posidonia, vecpop = 1), throws_error(""))
 	expect_that(MLL_generator(posidonia, vecpop = rep(1, 40), alpha1 = c(0.05, 0.05)), throws_error(""))
