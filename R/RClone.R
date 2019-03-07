@@ -1474,6 +1474,13 @@ sample_units <- function(data1, haploid = FALSE, vecpop = NULL, nbrepeat = 1000,
 #Genetic distances
 ##################
 
+setdiff_mod <- function (x, y) {
+    x <- as.vector(x)
+    y <- as.vector(y)
+    x1 <- x[match(x, y, 0L) == 0L]
+    y1 <- y[match(y, x, 0L) == 0L]
+	max(length(x1),length(y1))
+}
 
 genet_dist_core <- function(data1, haploid = FALSE, manh = FALSE, manh_w = FALSE, graph = FALSE, breaking = NULL, 
 				alpha1 = NULL, alpha2 = NULL){
@@ -1543,12 +1550,28 @@ if (haploid){
                         }
                 }
 } else {
+	if (haploid){
                 for (j in 1:G){
                         for (i in j:G){
                                 tab[i,j] <- length(which(tab_MLG[i,] != tab_MLG[j,]))
                                         }
                         }
+    } else {
+			    for (j in 1:G){
+                        for (i in j:G){
+							    loc1 <- as.numeric(tab_MLG[i,])
+                                loc2 <- as.numeric(tab_MLG[j,])
+                                recup <- NULL
+                                for (k in index_l){
+									recup <- c(recup, setdiff_mod(loc1[k:c(k+1)],
+												loc2[k:c(k+1)]))
+                                }
+                                tab[i,j] <- sum(recup)
+                        }
+				}
+	}
 }
+
 
 dist_all <- tab
 
