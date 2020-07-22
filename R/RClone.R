@@ -1479,7 +1479,7 @@ setdiff_mod <- function (x, y) {
     y <- as.vector(y)
     x1 <- x[match(x, y, 0L) == 0L]
     y1 <- y[match(y, x, 0L) == 0L]
-	max(length(x1),length(y1))
+	max(length(x1), length(y1))
 }
 
 genet_dist_core <- function(data1, haploid = FALSE, manh = FALSE, manh_w = FALSE, graph = FALSE, breaking = NULL, 
