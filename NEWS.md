@@ -1,10 +1,22 @@
+# RClone v1.0.3 (07/22/2020)
+
+## Minor fixes
+
+- *setdiff_mod* function was added. 
+*setdiff_mod* allowed to correctly compare 2 diploids markers by returning the number of different alleles.
+In some rare case previously, the R basic comparison function with *which* and *!=* was not working properly.
+
+- *genet_dist* function was modified with *setdiff_mod* ;
+
+- added unit tests for *setdiff_mod* in p3.
+
 # RClone v1.0.2 (06/03/2016)
 
 ## Minor fixes
 
-- GenClone outputs are corrected (before: table of lists, now : table of vectors) ;
+- *GenClone* outputs are corrected (before: table of lists, now : table of vectors) ;
 
-- units tests on GenClone function (p6 and p7) are temporary suspended because they make Travis crash due to too long computing time ;
+- units tests on *GenClone* function (p6 and p7) are temporary suspended because they make Travis crash due to too long computing time ;
 
 - authorship correction.
 
