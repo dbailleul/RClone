@@ -3,7 +3,7 @@
 [![CRAN Status](http://www.r-pkg.org/badges/version/RClone)](https://cran.r-project.org/package=RClone)
 
 
-# RClone v1.0.3
+# RClone v1.1.0
 
 *RClone* is a R package version of *GenClone* program: to analyse data (SSR, SNP, ...), test for clonality and describe spatial clonal organisation.
 

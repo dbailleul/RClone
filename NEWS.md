@@ -1,3 +1,13 @@
+# RClone v1.1.0 (07/22/2020)
+
+## Major fixes: WARNING ! Branch under construction !
+
+Adding more haploid functionalities.
+Thanks to Eduardo M. questions, I've found some lack in haploid functions.
+Also spotted some minor issues with others functions.
+Starting creating one file per function (instead of ONE big file).
+
+
 # RClone v1.0.3 (07/22/2020)
 
 ## Minor fixes
