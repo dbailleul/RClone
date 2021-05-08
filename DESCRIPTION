@@ -15,6 +15,6 @@ License: GPL (>=2.0)
 LazyLoad: yes
 Depends: R (>= 3.2.0), graphics, stats, grDevices, utils, datasets, methods
 URL: https://github.com/dbailleul/RClone
-Suggests: knitr, pander,
+Suggests: knitr, rmarkdown, pander,
     testthat
-VignetteBuilder: knitr
+VignetteBuilder: knitr, rmarkdown
