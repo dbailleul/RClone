@@ -57,6 +57,10 @@ several tables, one for each population, and then combine \command{lapply} with 
 
 \examples{
 
+
+\dontshow{.old_wd <- setwd(tempdir())}
+
+
 data(posidonia)
 
 #RClone to Adegenet:
@@ -85,6 +89,9 @@ export_genclone_arlequin(unique(posidonia), haploid = FALSE, "file2.arp")
 #res <- split(data, vecpop)
 #lapply(res, function(x) export_genclone_genetix(x))
 #lapply(res, function(x) export_genclone_arlequin(x))
+
+\dontshow{setwd(.old_wd)}
+
 }
 
 \keyword{documentation}
