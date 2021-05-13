@@ -4,6 +4,7 @@
 \alias{genet_dist_core}
 \alias{genet_dist_sim_core}
 \alias{graph_genet_dist}
+\alias{setdiff_mod}
 
 \title{
 Genetic distance

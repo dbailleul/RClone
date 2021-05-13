@@ -25,14 +25,14 @@ Arnaud-Haond S, Alberto F, Eguiluz VM, Hernandez-Garcia E, Duarte CM, Serrao EA
 (2014) Disentangling the influence of mutation and migration in clonal 
 seagrasses using the Genetic Distance Spectrum for microsatellites. 
 
-Dryad Digital Repository: \url{http://dx.doi.org/10.5061/dryad.3b8k6}
+Dryad Digital Repository: \doi{10.5061/dryad.3b8k6}
 }
 
 \references{
 Arnaud-Haond S, Maolic Y, Hernandez-Garcia E, Eguiluz VM, Alberto F, Serrao EA, 
 Duarte CM (2014) Disentangling the influence of mutation and migration in clonal
  seagrasses using the Genetic Distance Spectrum for microsatellites. Journal of 
- Heredity 105(4): 532-541. \url{http://dx.doi.org/10.1093/jhered/esu015}
+ Heredity 105(4): 532-541. \doi{10.1093/jhered/esu015}
  
  
 Arnaud-Haond S & Belkhir K, 2007, GENCLONE: a computer program to analyse genotypic 
